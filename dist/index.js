@@ -33117,7 +33117,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.run = void 0;
 var core = __importStar(__nccwpck_require__(2186));
 var fs_1 = __nccwpck_require__(7147);
 var get_inputs_1 = __nccwpck_require__(1464);
@@ -33126,7 +33125,7 @@ var palm_1 = __nccwpck_require__(5257);
 var inputs = (0, get_inputs_1.getInputs)();
 var octokit = (0, octokit_1.getOctokit)(inputs.githubToken);
 var palm = (0, palm_1.getPalmAPI)(inputs.palmApiKey);
-function run() {
+function startCodeReview() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
         var event_1, prDetails, diff, error_1;
@@ -33159,7 +33158,7 @@ function run() {
         });
     });
 }
-exports.run = run;
+startCodeReview();
 
 
 /***/ }),
