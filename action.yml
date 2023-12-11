@@ -1,0 +1,13 @@
+name: "Zordon A.I CodeReviewer"
+description: "Use ZordonAI to code review pull requests"
+inputs:
+  github_token:
+    description: "GitHub token to access repositories"
+    required: false
+    default: ${{ github.token }}
+  palm_api_key:
+    description: "PaLM API key"
+    required: true
+runs:
+  using: "node18"
+  main: "dist/index.js"

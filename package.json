@@ -1,0 +1,26 @@
+{
+  "name": "codereviewer",
+  "author": "zordonai",
+  "description": "Zordon A.I CodeReviewer",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "dev": "ncc run index.ts",
+    "build": "ncc build src/index.ts -o dist"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "@vercel/ncc": "latest",
+    "typescript": "^4.4.2"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@octokit/rest": "^20.0.2",
+    "node-fetch": "^3.3.2",
+    "palm-api": "^1.1.1"
+  }
+}
