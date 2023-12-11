@@ -1,13 +1,26 @@
+import { readFileSync } from "fs";
 import { getInputs } from "./get-inputs";
-import { getOctokit, getPRDetails } from "./octokit";
+import { getOctokit, getPRDetails, getPRDiff } from "./octokit";
 import { getPalmAPI } from "./palm";
 
 const inputs = getInputs();
 const octokit = getOctokit(inputs.githubToken);
 const palm = getPalmAPI(inputs.palmApiKey);
 
-const start = async () => {
+const startCodeReview = async () => {
+  const event = JSON.parse(
+    readFileSync(process.env.GITHUB_EVENT_PATH ?? "", "utf8")
+  );
   const prDetails = await getPRDetails(octokit);
 
-  console.log({ prDetails });
+  const diff = await getPRDiff({
+    octokit,
+    owner: prDetails.owner,
+    repo: prDetails.repo,
+    pull_number: prDetails.pull_number,
+  });
+
+  console.log({ prDetails, diff, event });
 };
+
+startCodeReview();
