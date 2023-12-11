@@ -33053,10 +33053,33 @@ exports.getInputs = getInputs;
 /***/ }),
 
 /***/ 6144:
-/***/ (function(module, exports, __nccwpck_require__) {
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -33094,6 +33117,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.run = void 0;
+var core = __importStar(__nccwpck_require__(2186));
 var fs_1 = __nccwpck_require__(7147);
 var get_inputs_1 = __nccwpck_require__(1464);
 var octokit_1 = __nccwpck_require__(2167);
@@ -33104,11 +33129,12 @@ var palm = (0, palm_1.getPalmAPI)(inputs.palmApiKey);
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function () {
-        var event, prDetails, diff;
+        var event_1, prDetails, diff, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    event = JSON.parse((0, fs_1.readFileSync)((_a = process.env.GITHUB_EVENT_PATH) !== null && _a !== void 0 ? _a : "", "utf8"));
+                    _b.trys.push([0, 3, , 4]);
+                    event_1 = JSON.parse((0, fs_1.readFileSync)((_a = process.env.GITHUB_EVENT_PATH) !== null && _a !== void 0 ? _a : "", "utf8"));
                     return [4 /*yield*/, (0, octokit_1.getPRDetails)(octokit)];
                 case 1:
                     prDetails = _b.sent();
@@ -33120,15 +33146,20 @@ function run() {
                         })];
                 case 2:
                     diff = _b.sent();
-                    console.log({ prDetails: prDetails, diff: diff, event: event });
-                    return [2 /*return*/];
+                    console.log({ prDetails: prDetails, diff: diff, event: event_1 });
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _b.sent();
+                    // Fail the workflow run if an error occurs
+                    if (error_1 instanceof Error)
+                        core.setFailed(error_1.message);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     });
 }
-module.exports = {
-    run: run,
-};
+exports.run = run;
 
 
 /***/ }),
