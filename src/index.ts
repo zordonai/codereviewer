@@ -22,7 +22,7 @@ export async function run() {
       pull_number: prDetails.pull_number,
     });
 
-    console.log({ prDetails, diff, event });
+    core.info(JSON.stringify({ prDetails, diff, event }, null, 2));
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);

@@ -33146,7 +33146,7 @@ function run() {
                         })];
                 case 2:
                     diff = _b.sent();
-                    console.log({ prDetails: prDetails, diff: diff, event: event_1 });
+                    core.info(JSON.stringify({ prDetails: prDetails, diff: diff, event: event_1 }, null, 2));
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _b.sent();
