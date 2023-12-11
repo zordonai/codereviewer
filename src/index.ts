@@ -7,7 +7,7 @@ const inputs = getInputs();
 const octokit = getOctokit(inputs.githubToken);
 const palm = getPalmAPI(inputs.palmApiKey);
 
-const startCodeReview = async () => {
+async function run() {
   const event = JSON.parse(
     readFileSync(process.env.GITHUB_EVENT_PATH ?? "", "utf8")
   );
@@ -21,6 +21,8 @@ const startCodeReview = async () => {
   });
 
   console.log({ prDetails, diff, event });
-};
+}
 
-startCodeReview();
+module.exports = {
+  run,
+};
