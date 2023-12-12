@@ -33135,17 +33135,18 @@ var octokit = (0, octokit_1.getOctokit)(inputs.githubToken);
 var palm = (0, palm_1.getPalmAPI)(inputs.palmApiKey);
 function startCodeReview() {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, owner, repo, pull_number, head_sha, action, diff, error_1;
+        var _a, owner, repo, pull_number, base_sha, head_sha, action, diff, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
-                    _a = (0, octokit_1.getPRDetails)(), owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, head_sha = _a.head_sha, action = _a.action;
+                    _a = (0, octokit_1.getPRDetails)(), owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, base_sha = _a.base_sha, head_sha = _a.head_sha, action = _a.action;
                     return [4 /*yield*/, (0, octokit_1.getPRDiff)({
                             octokit: octokit,
                             owner: owner,
                             repo: repo,
                             pull_number: pull_number,
+                            base_sha: base_sha,
                             head_sha: head_sha,
                             action: action,
                         })];
@@ -33215,13 +33216,17 @@ exports.getPRDetails = void 0;
 var fs_1 = __nccwpck_require__(7147);
 var getPRDetails = function () {
     var _a, _b;
-    var _c = JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")), action = _c.action, pull_request = _c.pull_request, repository = _c.repository, number = _c.number, after = _c.after;
+    console.log({
+        event: JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")),
+    });
+    var _c = JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")), action = _c.action, pull_request = _c.pull_request, repository = _c.repository, number = _c.number, before = _c.before, after = _c.after;
     return {
         title: (_a = pull_request.title) !== null && _a !== void 0 ? _a : "",
         description: (_b = pull_request.body) !== null && _b !== void 0 ? _b : "",
         owner: repository.owner.login,
         repo: repository.name,
         pull_number: number,
+        base_sha: before,
         head_sha: after,
         action: action,
     };
@@ -33279,9 +33284,9 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPRDiff = void 0;
 var parse_diff_1 = __importDefault(__nccwpck_require__(4833));
 var getPRDiff = function (_a) {
-    var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, head_sha = _a.head_sha, action = _a.action;
+    var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, base_sha = _a.base_sha, head_sha = _a.head_sha, action = _a.action;
     return __awaiter(void 0, void 0, void 0, function () {
-        var prDiff, lastCommit, commitDiff;
+        var prDiff, commitsDiff;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -33309,20 +33314,11 @@ var getPRDiff = function (_a) {
                         prDiffParsed: (0, parse_diff_1.default)(prDiff),
                         prDiffParsedString: JSON.stringify((0, parse_diff_1.default)(prDiff), null, 2),
                     });
-                    return [4 /*yield*/, octokit.rest.git
-                            .getCommit({
-                            owner: owner,
-                            repo: repo,
-                            commit_sha: head_sha,
-                        })
-                            .then(function (res) {
-                            return res.data;
-                        })];
-                case 2:
-                    lastCommit = _b.sent();
+                    if (action === "opened")
+                        return [2 /*return*/, (0, parse_diff_1.default)(prDiff)];
                     return [4 /*yield*/, octokit
                             .request({
-                            url: "https://api.github.com/repos/".concat(owner, "/").concat(repo, "/commits/").concat(head_sha),
+                            url: "https://api.github.com/repos/".concat(owner, "/").concat(repo, "/compare/").concat(base_sha, "...").concat(head_sha),
                             owner: owner,
                             repo: repo,
                             headers: {
@@ -33332,17 +33328,14 @@ var getPRDiff = function (_a) {
                             .then(function (res) {
                             return res.data;
                         })];
-                case 3:
-                    commitDiff = _b.sent();
+                case 2:
+                    commitsDiff = _b.sent();
                     console.log({
-                        commitDiff: commitDiff,
-                        commitDiffParsed: (0, parse_diff_1.default)(commitDiff),
-                        commitDiffParsedString: JSON.stringify((0, parse_diff_1.default)(commitDiff), null, 2),
-                        lastCommit: lastCommit,
-                        lastCommitString: JSON.stringify(lastCommit, null, 2),
-                        parents: lastCommit.parents,
+                        commitsDiff: commitsDiff,
+                        commitsDiffParsed: (0, parse_diff_1.default)(commitsDiff),
+                        commitsDiffParsedString: JSON.stringify((0, parse_diff_1.default)(commitsDiff), null, 2),
                     });
-                    return [2 /*return*/, (0, parse_diff_1.default)(commitDiff)];
+                    return [2 /*return*/, (0, parse_diff_1.default)(commitsDiff)];
             }
         });
     });

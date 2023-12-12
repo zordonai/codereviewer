@@ -6,6 +6,7 @@ export const getPRDiff = async ({
   owner,
   repo,
   pull_number,
+  base_sha,
   head_sha,
   action,
 }: IGetDiffParams): Promise<File[]> => {
@@ -34,18 +35,11 @@ export const getPRDiff = async ({
     prDiffParsedString: JSON.stringify(parseDiff(prDiff), null, 2),
   });
 
-  const lastCommit = await octokit.rest.git
-    .getCommit({
-      owner,
-      repo,
-      commit_sha: head_sha,
-    })
-    .then((res) => {
-      return res.data;
-    });
-  const commitDiff = await octokit
+  if (action === "opened") return parseDiff(prDiff);
+
+  const commitsDiff = await octokit
     .request({
-      url: `https://api.github.com/repos/${owner}/${repo}/commits/${head_sha}`,
+      url: `https://api.github.com/repos/${owner}/${repo}/compare/${base_sha}...${head_sha}`,
       owner,
       repo,
       headers: {
@@ -57,13 +51,10 @@ export const getPRDiff = async ({
     });
 
   console.log({
-    commitDiff,
-    commitDiffParsed: parseDiff(commitDiff),
-    commitDiffParsedString: JSON.stringify(parseDiff(commitDiff), null, 2),
-    lastCommit,
-    lastCommitString: JSON.stringify(lastCommit, null, 2),
-    parents: lastCommit.parents,
+    commitsDiff,
+    commitsDiffParsed: parseDiff(commitsDiff),
+    commitsDiffParsedString: JSON.stringify(parseDiff(commitsDiff), null, 2),
   });
 
-  return parseDiff(commitDiff);
+  return parseDiff(commitsDiff);
 };

@@ -10,12 +10,14 @@ const palm = getPalmAPI(inputs.palmApiKey);
 
 async function startCodeReview() {
   try {
-    const { owner, repo, pull_number, head_sha, action } = getPRDetails();
+    const { owner, repo, pull_number, base_sha, head_sha, action } =
+      getPRDetails();
     const diff = await getPRDiff({
       octokit,
       owner,
       repo,
       pull_number,
+      base_sha,
       head_sha,
       action,
     });
