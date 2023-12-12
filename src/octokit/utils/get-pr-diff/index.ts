@@ -10,7 +10,6 @@ export const getPRDiff = async ({
   action,
 }: IGetDiffParams): Promise<File[]> => {
   console.log({
-    octokit,
     owner,
     repo,
     pull_number,
@@ -29,7 +28,11 @@ export const getPRDiff = async ({
       return res.data as unknown as string;
     });
 
-  console.log({ prDiff, prDiffParsed: parseDiff(prDiff) });
+  console.log({
+    prDiff,
+    prDiffParsed: parseDiff(prDiff),
+    prDiffParsedString: JSON.stringify(parseDiff(prDiff), null, 2),
+  });
 
   const lastCommit = await octokit.rest.git
     .getCommit({
@@ -56,8 +59,9 @@ export const getPRDiff = async ({
   console.log({
     commitDiff,
     commitDiffParsed: parseDiff(commitDiff),
+    commitDiffParsedString: JSON.stringify(parseDiff(commitDiff), null, 2),
     lastCommit,
-    lastCommitString: JSON.stringify(lastCommit),
+    lastCommitString: JSON.stringify(lastCommit, null, 2),
     parents: lastCommit.parents,
   });
 

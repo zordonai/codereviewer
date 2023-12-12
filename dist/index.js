@@ -33286,7 +33286,6 @@ var getPRDiff = function (_a) {
             switch (_b.label) {
                 case 0:
                     console.log({
-                        octokit: octokit,
                         owner: owner,
                         repo: repo,
                         pull_number: pull_number,
@@ -33305,7 +33304,11 @@ var getPRDiff = function (_a) {
                         })];
                 case 1:
                     prDiff = _b.sent();
-                    console.log({ prDiff: prDiff, prDiffParsed: (0, parse_diff_1.default)(prDiff) });
+                    console.log({
+                        prDiff: prDiff,
+                        prDiffParsed: (0, parse_diff_1.default)(prDiff),
+                        prDiffParsedString: JSON.stringify((0, parse_diff_1.default)(prDiff), null, 2),
+                    });
                     return [4 /*yield*/, octokit.rest.git
                             .getCommit({
                             owner: owner,
@@ -33334,8 +33337,9 @@ var getPRDiff = function (_a) {
                     console.log({
                         commitDiff: commitDiff,
                         commitDiffParsed: (0, parse_diff_1.default)(commitDiff),
+                        commitDiffParsedString: JSON.stringify((0, parse_diff_1.default)(commitDiff), null, 2),
                         lastCommit: lastCommit,
-                        lastCommitString: JSON.stringify(lastCommit),
+                        lastCommitString: JSON.stringify(lastCommit, null, 2),
                         parents: lastCommit.parents,
                     });
                     return [2 /*return*/, (0, parse_diff_1.default)(commitDiff)];
