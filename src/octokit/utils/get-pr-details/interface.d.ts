@@ -4,5 +4,5 @@ export interface IPRDetails {
   pull_number: number;
   title: string;
   description: string;
-  files: string[];
+  action: string;
 }

@@ -10,19 +10,22 @@ const palm = getPalmAPI(inputs.palmApiKey);
 
 async function startCodeReview() {
   try {
-    const event = JSON.parse(
-      readFileSync(process.env.GITHUB_EVENT_PATH ?? "", "utf8")
-    );
-    const prDetails = await getPRDetails(octokit);
-
+    const { owner, repo, pull_number, action } = getPRDetails();
     const diff = await getPRDiff({
       octokit,
-      owner: prDetails.owner,
-      repo: prDetails.repo,
-      pull_number: prDetails.pull_number,
+      owner,
+      repo,
+      pull_number,
+      action,
     });
 
-    core.info(JSON.stringify({ prDetails, diff, event }, null, 2));
+    core.info(
+      JSON.stringify(
+        { diff, pr: { owner, repo, pull_number, action } },
+        null,
+        2
+      )
+    );
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);

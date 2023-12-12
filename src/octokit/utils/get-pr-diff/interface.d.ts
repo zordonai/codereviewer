@@ -5,4 +5,5 @@ export interface IGetDiffParams {
   owner: string;
   repo: string;
   pull_number: number;
+  action: string;
 }
