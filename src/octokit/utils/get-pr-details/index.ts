@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { Octokit } from "@octokit/rest";
 import { IPRDetails } from "./interface";
 
-export const getPRDetails = async (octokit: any): Promise<IPRDetails> => {
+export const getPRDetails = (): IPRDetails => {
   console.log({
     event: JSON.parse(
       readFileSync(process.env.GITHUB_EVENT_PATH || "", "utf8")
@@ -12,14 +12,6 @@ export const getPRDetails = async (octokit: any): Promise<IPRDetails> => {
     JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH || "", "utf8"));
 
   console.log({ pull_request: JSON.stringify(pull_request) });
-
-  const prResponse = await octokit.rest.pulls.get({
-    owner: repository.owner.login,
-    repo: repository.name,
-    pull_number: number,
-  });
-
-  console.log({ prDetails: prResponse.data });
 
   return {
     title: pull_request.title ?? "",
