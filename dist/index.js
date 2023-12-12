@@ -33135,17 +33135,18 @@ var octokit = (0, octokit_1.getOctokit)(inputs.githubToken);
 var palm = (0, palm_1.getPalmAPI)(inputs.palmApiKey);
 function startCodeReview() {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, owner, repo, pull_number, action, diff, error_1;
+        var _a, owner, repo, pull_number, head_sha, action, diff, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
                     _b.trys.push([0, 2, , 3]);
-                    _a = (0, octokit_1.getPRDetails)(), owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, action = _a.action;
+                    _a = (0, octokit_1.getPRDetails)(), owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, head_sha = _a.head_sha, action = _a.action;
                     return [4 /*yield*/, (0, octokit_1.getPRDiff)({
                             octokit: octokit,
                             owner: owner,
                             repo: repo,
                             pull_number: pull_number,
+                            head_sha: head_sha,
                             action: action,
                         })];
                 case 1:
@@ -33214,13 +33215,14 @@ exports.getPRDetails = void 0;
 var fs_1 = __nccwpck_require__(7147);
 var getPRDetails = function () {
     var _a, _b;
-    var _c = JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")), action = _c.action, pull_request = _c.pull_request, repository = _c.repository, number = _c.number;
+    var _c = JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")), action = _c.action, pull_request = _c.pull_request, repository = _c.repository, number = _c.number, after = _c.after;
     return {
         title: (_a = pull_request.title) !== null && _a !== void 0 ? _a : "",
         description: (_b = pull_request.body) !== null && _b !== void 0 ? _b : "",
         owner: repository.owner.login,
         repo: repository.name,
         pull_number: number,
+        head_sha: after,
         action: action,
     };
 };
@@ -33270,13 +33272,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -33284,41 +33279,36 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPRDiff = void 0;
 var parse_diff_1 = __importDefault(__nccwpck_require__(4833));
 var getPRDiff = function (_a) {
-    var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, action = _a.action;
+    var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, head_sha = _a.head_sha, action = _a.action;
     return __awaiter(void 0, void 0, void 0, function () {
-        var diff, prCommits, prCommitsWithoutMerge, _b, prCommitsWithoutMerge_1, prCommitsWithoutMerge_1_1, commit, commitDiff, e_1_1;
-        var _c, e_1, _d, _e;
-        return __generator(this, function (_f) {
-            switch (_f.label) {
+        var prDiff, commitDiff;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    diff = [];
+                    console.log({
+                        octokit: octokit,
+                        owner: owner,
+                        repo: repo,
+                        pull_number: pull_number,
+                        head_sha: head_sha,
+                        action: action,
+                    });
                     return [4 /*yield*/, octokit.rest.pulls
-                            .listCommits({
+                            .get({
                             owner: owner,
                             repo: repo,
                             pull_number: pull_number,
+                            mediaType: { format: "diff" },
                         })
-                            .then(function (response) { return response.data; })];
+                            .then(function (res) {
+                            return res.data;
+                        })];
                 case 1:
-                    prCommits = _f.sent();
-                    prCommitsWithoutMerge = prCommits.filter(function (commit) { return commit.parents.length < 2; });
-                    _f.label = 2;
-                case 2:
-                    _f.trys.push([2, 10, 11, 16]);
-                    _b = true, prCommitsWithoutMerge_1 = __asyncValues(prCommitsWithoutMerge);
-                    _f.label = 3;
-                case 3: return [4 /*yield*/, prCommitsWithoutMerge_1.next()];
-                case 4:
-                    if (!(prCommitsWithoutMerge_1_1 = _f.sent(), _c = prCommitsWithoutMerge_1_1.done, !_c)) return [3 /*break*/, 9];
-                    _e = prCommitsWithoutMerge_1_1.value;
-                    _b = false;
-                    _f.label = 5;
-                case 5:
-                    _f.trys.push([5, , 7, 8]);
-                    commit = _e;
+                    prDiff = _b.sent();
+                    console.log({ prDiff: prDiff, prDiffParsed: (0, parse_diff_1.default)(prDiff) });
                     return [4 /*yield*/, octokit
                             .request({
-                            url: "https://api.github.com/repos/".concat(owner, "/").concat(repo, "/commits/").concat(commit.sha),
+                            url: "https://api.github.com/repos/".concat(owner, "/").concat(repo, "/commits/").concat(head_sha),
                             owner: owner,
                             repo: repo,
                             headers: {
@@ -33328,34 +33318,10 @@ var getPRDiff = function (_a) {
                             .then(function (res) {
                             return res.data;
                         })];
-                case 6:
-                    commitDiff = _f.sent();
-                    diff.push.apply(diff, (0, parse_diff_1.default)(commitDiff));
-                    return [3 /*break*/, 8];
-                case 7:
-                    _b = true;
-                    return [7 /*endfinally*/];
-                case 8: return [3 /*break*/, 3];
-                case 9: return [3 /*break*/, 16];
-                case 10:
-                    e_1_1 = _f.sent();
-                    e_1 = { error: e_1_1 };
-                    return [3 /*break*/, 16];
-                case 11:
-                    _f.trys.push([11, , 14, 15]);
-                    if (!(!_b && !_c && (_d = prCommitsWithoutMerge_1.return))) return [3 /*break*/, 13];
-                    return [4 /*yield*/, _d.call(prCommitsWithoutMerge_1)];
-                case 12:
-                    _f.sent();
-                    _f.label = 13;
-                case 13: return [3 /*break*/, 15];
-                case 14:
-                    if (e_1) throw e_1.error;
-                    return [7 /*endfinally*/];
-                case 15: return [7 /*endfinally*/];
-                case 16:
-                    console.log({ prCommits: prCommits, prCommitsWithoutMerge: prCommitsWithoutMerge, diff: diff });
-                    return [2 /*return*/, diff];
+                case 2:
+                    commitDiff = _b.sent();
+                    console.log({ commitDiff: commitDiff, commitDiffParsed: (0, parse_diff_1.default)(commitDiff) });
+                    return [2 /*return*/, (0, parse_diff_1.default)(commitDiff)];
             }
         });
     });

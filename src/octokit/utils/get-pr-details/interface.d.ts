@@ -1,8 +1,9 @@
 export interface IPRDetails {
+  title: string;
+  description: string;
   owner: string;
   repo: string;
   pull_number: number;
-  title: string;
-  description: string;
+  head_sha: string;
   action: string;
 }

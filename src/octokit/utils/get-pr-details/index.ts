@@ -3,7 +3,7 @@ import { Octokit } from "@octokit/rest";
 import { IPRDetails } from "./interface";
 
 export const getPRDetails = (): IPRDetails => {
-  const { action, pull_request, repository, number } = JSON.parse(
+  const { action, pull_request, repository, number, after } = JSON.parse(
     readFileSync(process.env.GITHUB_EVENT_PATH || "", "utf8")
   );
 
@@ -13,6 +13,7 @@ export const getPRDetails = (): IPRDetails => {
     owner: repository.owner.login,
     repo: repository.name,
     pull_number: number,
+    head_sha: after,
     action,
   };
 };
