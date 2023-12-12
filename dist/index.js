@@ -33262,6 +33262,7 @@ var getPRDetails = function (octokit) { return __awaiter(void 0, void 0, void 0,
                     event: JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")),
                 });
                 _a = JSON.parse((0, fs_1.readFileSync)(process.env.GITHUB_EVENT_PATH || "", "utf8")), action = _a.action, pull_request = _a.pull_request, repository = _a.repository, number = _a.number, before = _a.before, after = _a.after;
+                console.log({ pull_request: JSON.stringify(pull_request) });
                 return [4 /*yield*/, octokit.rest.pulls.get({
                         owner: repository.owner.login,
                         repo: repository.name,

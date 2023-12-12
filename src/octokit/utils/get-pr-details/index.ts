@@ -11,6 +11,8 @@ export const getPRDetails = async (octokit: any): Promise<IPRDetails> => {
   const { action, pull_request, repository, number, before, after } =
     JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH || "", "utf8"));
 
+  console.log({ pull_request: JSON.stringify(pull_request) });
+
   const prResponse = await octokit.rest.pulls.get({
     owner: repository.owner.login,
     repo: repository.name,
