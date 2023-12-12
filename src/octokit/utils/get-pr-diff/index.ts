@@ -31,6 +31,15 @@ export const getPRDiff = async ({
 
   console.log({ prDiff, prDiffParsed: parseDiff(prDiff) });
 
+  const lastCommit = await octokit.rest.git
+    .getCommit({
+      owner,
+      repo,
+      commit_sha: head_sha,
+    })
+    .then((res) => {
+      return res.data;
+    });
   const commitDiff = await octokit
     .request({
       url: `https://api.github.com/repos/${owner}/${repo}/commits/${head_sha}`,
@@ -44,7 +53,13 @@ export const getPRDiff = async ({
       return res.data;
     });
 
-  console.log({ commitDiff, commitDiffParsed: parseDiff(commitDiff) });
+  console.log({
+    commitDiff,
+    commitDiffParsed: parseDiff(commitDiff),
+    lastCommit,
+    lastCommitString: JSON.stringify(lastCommit),
+    parents: lastCommit.parents,
+  });
 
   return parseDiff(commitDiff);
 };

@@ -33281,7 +33281,7 @@ var parse_diff_1 = __importDefault(__nccwpck_require__(4833));
 var getPRDiff = function (_a) {
     var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, head_sha = _a.head_sha, action = _a.action;
     return __awaiter(void 0, void 0, void 0, function () {
-        var prDiff, commitDiff;
+        var prDiff, lastCommit, commitDiff;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
@@ -33306,6 +33306,17 @@ var getPRDiff = function (_a) {
                 case 1:
                     prDiff = _b.sent();
                     console.log({ prDiff: prDiff, prDiffParsed: (0, parse_diff_1.default)(prDiff) });
+                    return [4 /*yield*/, octokit.rest.git
+                            .getCommit({
+                            owner: owner,
+                            repo: repo,
+                            commit_sha: head_sha,
+                        })
+                            .then(function (res) {
+                            return res.data;
+                        })];
+                case 2:
+                    lastCommit = _b.sent();
                     return [4 /*yield*/, octokit
                             .request({
                             url: "https://api.github.com/repos/".concat(owner, "/").concat(repo, "/commits/").concat(head_sha),
@@ -33318,9 +33329,15 @@ var getPRDiff = function (_a) {
                             .then(function (res) {
                             return res.data;
                         })];
-                case 2:
+                case 3:
                     commitDiff = _b.sent();
-                    console.log({ commitDiff: commitDiff, commitDiffParsed: (0, parse_diff_1.default)(commitDiff) });
+                    console.log({
+                        commitDiff: commitDiff,
+                        commitDiffParsed: (0, parse_diff_1.default)(commitDiff),
+                        lastCommit: lastCommit,
+                        lastCommitString: JSON.stringify(lastCommit),
+                        parents: lastCommit.parents,
+                    });
                     return [2 /*return*/, (0, parse_diff_1.default)(commitDiff)];
             }
         });
