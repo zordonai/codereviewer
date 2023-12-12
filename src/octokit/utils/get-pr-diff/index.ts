@@ -8,33 +8,42 @@ export const getPRDiff = async ({
   pull_number,
   action,
 }: IGetDiffParams): Promise<File[]> => {
-  const prResponse = await octokit.rest.pulls.get({
-    owner,
-    repo,
-    pull_number,
-    mediaType: { format: "diff" },
-  });
-  const prCommitsResponse = await octokit.rest.pulls.listCommits({
-    owner,
-    repo,
-    pull_number,
-  });
-  const commitDiff = await octokit
-    .request({
-      url: `https://api.github.com/repos/${owner}/${repo}/commits/47b985e529773089a9d7913a56df62ca2ee9c8a1`,
+  // const prResponse = await octokit.rest.pulls.get({
+  //   owner,
+  //   repo,
+  //   pull_number,
+  //   mediaType: { format: "diff" },
+  // });
+  let diff = [];
+  const prCommits = await octokit.rest.pulls
+    .listCommits({
       owner,
       repo,
-      headers: {
-        Accept: "application/vnd.github.diff",
-      },
+      pull_number,
     })
-    .then((res) => {
-      return res.data;
-    });
+    .then((response) => response.data);
+  const prCommitsWithoutMerge = prCommits.filter(
+    (commit) => commit.parents.length < 2
+  );
 
-  console.log({ commits: prCommitsResponse.data, commitDiff });
+  for await (const commit of prCommitsWithoutMerge) {
+    const commitDiff = await octokit
+      .request({
+        url: `https://api.github.com/repos/${owner}/${repo}/commits/${commit.sha}`,
+        owner,
+        repo,
+        headers: {
+          Accept: "application/vnd.github.diff",
+        },
+      })
+      .then((res) => {
+        return res.data;
+      });
 
-  const diff = prResponse.data as unknown as string;
+    diff.push(...parseDiff(commitDiff));
+  }
 
-  return parseDiff(diff);
+  console.log({ prCommits, prCommitsWithoutMerge, diff });
+
+  return diff;
 };
