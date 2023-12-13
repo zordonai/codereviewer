@@ -23,7 +23,7 @@ export const createPrompt = (
 10. Consider performance using BigO notation
 
 Extra Instructions:
-1. Provide the response in following JSON format: [{ "file": <file_name>, "reviews": [{"lineNumber": <line_number>, "reviewComment": "<review comment>"}] }]
+1. Provide the response in following JSON format: [{ "file": "<file_name>", "reviews": [{"lineNumber": <line_number>, "reviewComment": "<review comment>"}] }]
 2. Do not give positive comments or compliments
 3. Provide comments as an Staff Engineer
 4. Provide comments and suggestions ONLY if there is something to improve

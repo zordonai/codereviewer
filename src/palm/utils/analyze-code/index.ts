@@ -18,7 +18,7 @@ export const analyzeCode = async ({
   });
 
   console.log({
-    result1String: JSON.stringify(result1),
-    result2String: JSON.stringify(result2),
+    result1: result1,
+    result2: result2,
   });
 };

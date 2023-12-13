@@ -34021,8 +34021,8 @@ var analyzeCode = function (_a) {
                 case 2:
                     result2 = _b.sent();
                     console.log({
-                        result1String: JSON.stringify(result1),
-                        result2String: JSON.stringify(result2),
+                        result1: result1,
+                        result2: result2,
                     });
                     return [2 /*return*/];
             }
@@ -34045,7 +34045,7 @@ var get_files_changes_1 = __nccwpck_require__(5422);
 var createPrompt = function (diff, title, description) {
     var filesChanges = (0, get_files_changes_1.getFilesChanges)(diff);
     console.log({ filesChangesString: JSON.stringify(filesChanges) });
-    var prompt = "Please perform a code review considering the following aspects:\n1. Consider the file extension\n2. Code structure and organization\n3. Naming conventions and formatting\n4. Clarity and readability of the code\n5. Efficiency and optimization\n6. Logic and correct functioning of the code\n7. Error handling and exception handling\n8. Code comments and documentation\n9. Security best practices\n10. Consider performance using BigO notation\n\nExtra Instructions:\n1. Provide the response in following JSON format: [{ \"file\": <file_name>, \"reviews\": [{\"lineNumber\": <line_number>, \"reviewComment\": \"<review comment>\"}] }]\n2. Do not give positive comments or compliments\n3. Provide comments as an Staff Engineer\n4. Provide comments and suggestions ONLY if there is something to improve\n5. Write the comment in GitHub Markdown format\n6. Use the given description only for the overall context and only comment the code\n7. Make clear performance improvements, better understanding and explain why\n8. If have suggestions, consider to give examples in how to do\n9. IMPORTANT: NEVER suggest adding comments or descriptions to the code\n10. IMPORTANT\u00B2: BEWARE of duplicate comments and limit duplication to a maximum of 2\n\nPull request title: ".concat(title, "\nPull request description:\n\n---\n").concat(description, "\n---\n\nFiles:\n\n");
+    var prompt = "Please perform a code review considering the following aspects:\n1. Consider the file extension\n2. Code structure and organization\n3. Naming conventions and formatting\n4. Clarity and readability of the code\n5. Efficiency and optimization\n6. Logic and correct functioning of the code\n7. Error handling and exception handling\n8. Code comments and documentation\n9. Security best practices\n10. Consider performance using BigO notation\n\nExtra Instructions:\n1. Provide the response in following JSON format: [{ \"file\": \"<file_name>\", \"reviews\": [{\"lineNumber\": <line_number>, \"reviewComment\": \"<review comment>\"}] }]\n2. Do not give positive comments or compliments\n3. Provide comments as an Staff Engineer\n4. Provide comments and suggestions ONLY if there is something to improve\n5. Write the comment in GitHub Markdown format\n6. Use the given description only for the overall context and only comment the code\n7. Make clear performance improvements, better understanding and explain why\n8. If have suggestions, consider to give examples in how to do\n9. IMPORTANT: NEVER suggest adding comments or descriptions to the code\n10. IMPORTANT\u00B2: BEWARE of duplicate comments and limit duplication to a maximum of 2\n\nPull request title: ".concat(title, "\nPull request description:\n\n---\n").concat(description, "\n---\n\nFiles:\n\n");
     for (var _i = 0, filesChanges_1 = filesChanges; _i < filesChanges_1.length; _i++) {
         var _a = filesChanges_1[_i], file = _a.file, content = _a.content, changes = _a.changes;
         prompt += "---\nfile_name: ".concat(file, "\n\n```diff\n").concat(content, "\n").concat(changes, "\n```\n---\n");
