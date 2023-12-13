@@ -5,9 +5,14 @@ export const getInputs = () => {
   const palmApiKey: string = core.getInput("palm_api_key", {
     required: true,
   });
+  const excludeFiles = core
+    .getInput("exclude_files")
+    .split(",")
+    .map((s) => s.trim());
 
   return {
     githubToken,
     palmApiKey,
+    excludeFiles,
   };
 };

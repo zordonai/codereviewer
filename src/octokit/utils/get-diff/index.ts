@@ -6,21 +6,21 @@ import { getAllowedCommitsDiff } from "./get-allowed-commits-diff";
 
 export const getDiff = async ({
   octokit,
+  action,
   owner,
   repo,
   pull_number,
   base_sha,
   head_sha,
-  action,
+  exclude_files,
 }: IGetDiffParams): Promise<File[]> => {
   const prDiff = await getPRDiff({
     octokit,
     owner,
     repo,
     pull_number,
+    exclude_files,
   });
-
-  console.log({ prDiffString: JSON.stringify(prDiff) });
 
   if (action === "opened") return prDiff;
 
@@ -30,19 +30,14 @@ export const getDiff = async ({
     repo,
     base_sha,
     head_sha,
+    exclude_files,
   });
-
-  console.log({ commitsDiffString: JSON.stringify(commitsDiff) });
 
   if (commitsDiff.length === 0) return [];
 
   const allowedCommitsDiff = getAllowedCommitsDiff({
     pr_diff: prDiff,
     commits_diff: commitsDiff,
-  });
-
-  console.log({
-    allowedCommitsDiffString: JSON.stringify(allowedCommitsDiff),
   });
 
   return allowedCommitsDiff;

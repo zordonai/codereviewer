@@ -6,4 +6,5 @@ export interface IGetCommitsDiffParams {
   repo: string;
   base_sha: string;
   head_sha: string;
+  exclude_files: string[];
 }

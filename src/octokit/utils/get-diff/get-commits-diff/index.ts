@@ -1,12 +1,16 @@
 import parseDiff, { File } from "parse-diff";
 import { IGetCommitsDiffParams } from "./interface";
 
+import { removeExcludedFiles } from "../remove-excluded-files";
+import { removeDeletedFiles } from "../remove-deleted-files";
+
 export const getCommitsDiff = async ({
   octokit,
   owner,
   repo,
   base_sha,
   head_sha,
+  exclude_files,
 }: IGetCommitsDiffParams): Promise<File[]> =>
   await octokit
     .request({
@@ -18,5 +22,7 @@ export const getCommitsDiff = async ({
       },
     })
     .then((res) => {
-      return parseDiff(res.data);
+      const parsedData = parseDiff(res.data);
+      const allowedFiles = removeExcludedFiles(parsedData, exclude_files);
+      return removeDeletedFiles(allowedFiles);
     });

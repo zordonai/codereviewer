@@ -2,9 +2,11 @@ import PaLM from "palm-api";
 import fetch from "node-fetch";
 
 export const getPalmAPI = (palmApiKey: string) => {
-  const bot = new PaLM(palmApiKey, {
+  const palm = new PaLM(palmApiKey, {
     fetch: fetch as any,
   });
 
-  return bot;
+  return palm;
 };
+
+export * from "./utils";

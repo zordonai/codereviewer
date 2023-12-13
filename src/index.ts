@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { getInputs } from "./get-inputs";
 import { getOctokit, getPRDetails, getDiff } from "./octokit";
-import { getPalmAPI } from "./palm";
+import { getPalmAPI, analyzeCode } from "./palm";
 
 const inputs = getInputs();
 const octokit = getOctokit(inputs.githubToken);
@@ -9,19 +9,35 @@ const palm = getPalmAPI(inputs.palmApiKey);
 
 async function startCodeReview() {
   try {
-    const { owner, repo, pull_number, base_sha, head_sha, action } =
-      getPRDetails();
-    const diff = await getDiff({
-      octokit,
+    const {
+      title,
+      description,
       owner,
       repo,
       pull_number,
       base_sha,
       head_sha,
       action,
+    } = getPRDetails();
+    const diff = await getDiff({
+      octokit,
+      action,
+      owner,
+      repo,
+      pull_number,
+      base_sha,
+      head_sha,
+      exclude_files: inputs.excludeFiles,
     });
 
     if (diff.length === 0) return;
+
+    analyzeCode({
+      palm,
+      diff,
+      title,
+      description,
+    });
 
     console.log({
       diffString: JSON.stringify(diff),

@@ -8,6 +8,10 @@ inputs:
   palm_api_key:
     description: "PaLM API key"
     required: true
+  exclude_files:
+    description: "Glob patterns to exclude files"
+    required: false
+    default: ""
 runs:
   using: "node20"
   main: "dist/index.js"

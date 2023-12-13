@@ -5,4 +5,5 @@ export interface IGetPRDiffParams {
   owner: string;
   repo: string;
   pull_number: number;
+  exclude_files: string[];
 }
