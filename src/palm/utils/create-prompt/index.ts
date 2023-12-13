@@ -53,4 +53,6 @@ ${changes}
 ---
 `;
   }
+
+  return prompt;
 };

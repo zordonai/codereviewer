@@ -33989,6 +33989,7 @@ var createPrompt = function (diff, title, description) {
         var _a = filesChanges_1[_i], file = _a.file, content = _a.content, changes = _a.changes;
         prompt += "---\nfile_name: ".concat(file, "\n\n```diff\n").concat(content, "\n").concat(changes, "\n```\n---\n");
     }
+    return prompt;
 };
 exports.createPrompt = createPrompt;
 
