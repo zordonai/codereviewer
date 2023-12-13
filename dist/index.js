@@ -39158,13 +39158,10 @@ var withOpenAI = function (_a) {
                             ],
                             stream: false,
                         })
-                            .then(function (answer) { return answer.choices; })];
+                            .then(function (answer) { var _a, _b, _c; return (_c = (_b = (_a = answer.choices[0].message) === null || _a === void 0 ? void 0 : _a.content) === null || _b === void 0 ? void 0 : _b.trim()) !== null && _c !== void 0 ? _c : "[]"; })];
                 case 1:
                     result = _b.sent();
-                    return [2 /*return*/, {
-                            result: result,
-                            resultString: JSON.stringify(result),
-                        }];
+                    return [2 /*return*/, result];
             }
         });
     });

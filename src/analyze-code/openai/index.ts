@@ -26,10 +26,7 @@ export const withOpenAI = async ({
       ],
       stream: false,
     })
-    .then((answer) => answer.choices);
+    .then((answer) => answer.choices[0].message?.content?.trim() ?? "[]");
 
-  return {
-    result,
-    resultString: JSON.stringify(result),
-  };
+  return result;
 };
