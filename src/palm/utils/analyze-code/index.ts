@@ -1,7 +1,7 @@
 import { IAnalyzeCode } from "./interface";
 import { createPrompt } from "../create-prompt";
 
-export const analyzeCode = async ({
+export const analyzeCode = ({
   palm,
   diff,
   title,

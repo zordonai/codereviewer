@@ -1,7 +1,7 @@
 import type { File } from "parse-diff";
 import { getFilesChanges } from "../get-files-changes";
 
-export const createPrompt = async (
+export const createPrompt = (
   diff: File[],
   title: string,
   description: string
