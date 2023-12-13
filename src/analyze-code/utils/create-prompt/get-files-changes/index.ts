@@ -8,7 +8,7 @@ export const getFilesChanges = (diff: File[]) => {
     });
 
     return {
-      file: file.to,
+      file: file.to ?? "",
       content: file.chunks[0].content,
       changes: fileChanges.join("\n"),
     };

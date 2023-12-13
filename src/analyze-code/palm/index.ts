@@ -13,7 +13,7 @@ export const withPalm = async ({
     fetch: fetch as any,
   });
 
-  const prompt = createPrompt(diff, title, description);
+  const prompt = await createPrompt(diff, title, description);
   const result1 = await palm.generateText(prompt, {
     temperature: 0.5,
     candidate_count: 1,

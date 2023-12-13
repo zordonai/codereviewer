@@ -13,7 +13,7 @@ export const withOpenAI = async ({
     apiKey,
   });
 
-  const prompt = createPrompt(diff, title, description);
+  const prompt = await createPrompt(diff, title, description);
   const result = await openai.chat.completions
     .create({
       model: "gpt-3.5-turbo",
