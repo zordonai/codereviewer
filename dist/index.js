@@ -33273,9 +33273,11 @@ var getAllowedCommitsDiff = function (_a) {
                 currentFiles.add(file.to);
                 return currentFiles;
             }, initialPRDiffFiles);
+            console.log({ prDiffFilesString: JSON.stringify(prDiffFiles) });
             commitsDiffFiles = commits_diff.filter(function (file) {
                 return prDiffFiles.has(file.to);
             });
+            console.log({ commitsDiffFilesString: JSON.stringify(commitsDiffFiles) });
             if (commitsDiffFiles.length === 0)
                 return [2 /*return*/, []];
             initialPRChanges = new Map();
@@ -33286,6 +33288,7 @@ var getAllowedCommitsDiff = function (_a) {
                 });
                 return list;
             }, initialPRChanges);
+            console.log({ initialPRChangesString: JSON.stringify(initialPRChanges) });
             allowedCommitsChanges = commitsDiffFiles.reduce(function (list, file) {
                 var changes = file.chunks[0].changes.filter(function (change) {
                     var line = change.type === "normal" ? change.ln2 : change.ln;
@@ -33295,6 +33298,9 @@ var getAllowedCommitsDiff = function (_a) {
                 file.chunks[0].changes = changes;
                 return __spreadArray(__spreadArray([], list, true), [file], false);
             }, []);
+            console.log({
+                allowedCommitsChangesString: JSON.stringify(allowedCommitsChanges),
+            });
             return [2 /*return*/, allowedCommitsChanges];
         });
     });
