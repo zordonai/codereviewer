@@ -7,6 +7,9 @@ export const createPrompt = (
   description: string
 ) => {
   const filesChanges = getFilesChanges(diff);
+
+  console.log({ filesChangesString: JSON.stringify(filesChanges) });
+
   let prompt = `Please perform a code review considering the following aspects:
 1. Consider the file extension
 2. Code structure and organization
