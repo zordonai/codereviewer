@@ -4,8 +4,8 @@ export const getFilesChanges = (diff: File[]) => {
   const filesChanges = diff.map((file) => {
     const fileChanges = file.chunks[0].changes.map((change) => {
       const line = change.type === "normal" ? change.ln2 : change.ln;
-      return `${line} ${change}`;
-    }, "");
+      return `${line} ${change.content}`;
+    });
 
     return {
       file: file.to,

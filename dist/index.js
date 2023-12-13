@@ -34008,8 +34008,8 @@ var getFilesChanges = function (diff) {
     var filesChanges = diff.map(function (file) {
         var fileChanges = file.chunks[0].changes.map(function (change) {
             var line = change.type === "normal" ? change.ln2 : change.ln;
-            return "".concat(line, " ").concat(change);
-        }, "");
+            return "".concat(line, " ").concat(change.content);
+        });
         return {
             file: file.to,
             content: file.chunks[0].content,
