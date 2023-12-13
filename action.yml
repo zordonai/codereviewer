@@ -7,7 +7,12 @@ inputs:
     default: ${{ github.token }}
   palm_api_key:
     description: "PaLM API key"
-    required: true
+    required: false
+    default: ""
+  openai_api_key:
+    description: "OpenAI API key"
+    required: false
+    default: ""
   exclude_files:
     description: "Glob patterns to exclude files"
     required: false

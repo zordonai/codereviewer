@@ -1,11 +1,10 @@
 import * as core from "@actions/core";
 import { getInputs } from "./get-inputs";
 import { getOctokit, getPRDetails, getDiff } from "./octokit";
-import { getPalmAPI, analyzeCode } from "./palm";
+import { analyzeCode } from "./analyze-code";
 
 const inputs = getInputs();
 const octokit = getOctokit(inputs.githubToken);
-const palm = getPalmAPI(inputs.palmApiKey);
 
 async function startCodeReview() {
   try {
@@ -32,16 +31,18 @@ async function startCodeReview() {
 
     if (diff.length === 0) return;
 
-    analyzeCode({
-      palm,
+    const results = await analyzeCode({
       diff,
       title,
       description,
+      palmApiKey: inputs.palmApiKey,
+      openaiApiKey: inputs.openaiApiKey,
     });
 
     console.log({
       diffString: JSON.stringify(diff),
       prDetailsString: JSON.stringify({ owner, repo, pull_number, action }),
+      results,
     });
   } catch (error) {
     // Fail the workflow run if an error occurs

@@ -1,5 +1,5 @@
 import type { File } from "parse-diff";
-import { getFilesChanges } from "../get-files-changes";
+import { getFilesChanges } from "./get-files-changes";
 
 export const createPrompt = (
   diff: File[],
@@ -7,8 +7,6 @@ export const createPrompt = (
   description: string
 ) => {
   const filesChanges = getFilesChanges(diff);
-
-  console.log({ filesChangesString: JSON.stringify(filesChanges) });
 
   let prompt = `Please perform a code review considering the following aspects:
 1. Consider the file extension
@@ -56,6 +54,8 @@ ${changes}
 ---
 `;
   }
+
+  console.log({ prompt });
 
   return prompt;
 };

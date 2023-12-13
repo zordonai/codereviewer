@@ -23,6 +23,7 @@
     "@octokit/rest": "^20.0.2",
     "minimatch": "^9.0.3",
     "node-fetch": "^3.3.2",
+    "openai": "^4.21.0",
     "palm-api": "^1.1.1",
     "parse-diff": "^0.11.1",
     "rm": "^0.1.8"
