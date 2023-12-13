@@ -33500,7 +33500,7 @@ var get_allowed_commits_diff_1 = __nccwpck_require__(6686);
 var getDiff = function (_a) {
     var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, base_sha = _a.base_sha, head_sha = _a.head_sha, action = _a.action;
     return __awaiter(void 0, void 0, void 0, function () {
-        var prDiff, commitsDiff, allowerdCommitsDiff;
+        var prDiff, commitsDiff, allowedCommitsDiff;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0: return [4 /*yield*/, (0, get_pr_diff_1.getPRDiff)({
@@ -33526,14 +33526,14 @@ var getDiff = function (_a) {
                     console.log({ commitsDiffString: JSON.stringify(commitsDiff) });
                     if (commitsDiff.length === 0)
                         return [2 /*return*/, []];
-                    allowerdCommitsDiff = (0, get_allowed_commits_diff_1.getAllowedCommitsDiff)({
+                    allowedCommitsDiff = (0, get_allowed_commits_diff_1.getAllowedCommitsDiff)({
                         pr_diff: prDiff,
                         commits_diff: commitsDiff,
                     });
                     console.log({
-                        allowerdCommitsDiffString: JSON.stringify(allowerdCommitsDiff),
+                        allowedCommitsDiffString: JSON.stringify(allowedCommitsDiff),
                     });
-                    return [2 /*return*/, allowerdCommitsDiff];
+                    return [2 /*return*/, allowedCommitsDiff];
             }
         });
     });

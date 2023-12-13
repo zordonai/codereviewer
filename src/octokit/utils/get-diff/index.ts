@@ -36,14 +36,14 @@ export const getDiff = async ({
 
   if (commitsDiff.length === 0) return [];
 
-  const allowerdCommitsDiff = getAllowedCommitsDiff({
+  const allowedCommitsDiff = getAllowedCommitsDiff({
     pr_diff: prDiff,
     commits_diff: commitsDiff,
   });
 
   console.log({
-    allowerdCommitsDiffString: JSON.stringify(allowerdCommitsDiff),
+    allowedCommitsDiffString: JSON.stringify(allowedCommitsDiff),
   });
 
-  return allowerdCommitsDiff;
+  return allowedCommitsDiff;
 };
