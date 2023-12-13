@@ -14,19 +14,22 @@ export const withOpenAI = async ({
   });
 
   const prompt = createPrompt(diff, title, description);
-  const result = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    temperature: 0.5,
-    messages: [
-      {
-        role: "system",
-        content: prompt,
-      },
-    ],
-    stream: false,
-  });
+  const result = await openai.chat.completions
+    .create({
+      model: "gpt-3.5-turbo",
+      temperature: 0.5,
+      messages: [
+        {
+          role: "system",
+          content: prompt,
+        },
+      ],
+      stream: false,
+    })
+    .then((answer) => answer.choices);
 
   return {
     result,
+    resultString: JSON.stringify(result),
   };
 };

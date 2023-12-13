@@ -39146,7 +39146,8 @@ var withOpenAI = function (_a) {
                         apiKey: apiKey,
                     });
                     prompt = (0, create_prompt_1.createPrompt)(diff, title, description);
-                    return [4 /*yield*/, openai.chat.completions.create({
+                    return [4 /*yield*/, openai.chat.completions
+                            .create({
                             model: "gpt-3.5-turbo",
                             temperature: 0.5,
                             messages: [
@@ -39156,11 +39157,13 @@ var withOpenAI = function (_a) {
                                 },
                             ],
                             stream: false,
-                        })];
+                        })
+                            .then(function (answer) { return answer.choices; })];
                 case 1:
                     result = _b.sent();
                     return [2 /*return*/, {
                             result: result,
+                            resultString: JSON.stringify(result),
                         }];
             }
         });
