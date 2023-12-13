@@ -1,7 +1,6 @@
 import * as core from "@actions/core";
-import { readFileSync } from "fs";
 import { getInputs } from "./get-inputs";
-import { getOctokit, getPRDetails, getPRDiff } from "./octokit";
+import { getOctokit, getPRDetails, getDiff } from "./octokit";
 import { getPalmAPI } from "./palm";
 
 const inputs = getInputs();
@@ -12,7 +11,7 @@ async function startCodeReview() {
   try {
     const { owner, repo, pull_number, base_sha, head_sha, action } =
       getPRDetails();
-    const diff = await getPRDiff({
+    const diff = await getDiff({
       octokit,
       owner,
       repo,
@@ -22,15 +21,12 @@ async function startCodeReview() {
       action,
     });
 
-    if (!diff.length) return;
+    if (diff.length === 0) return;
 
-    core.info(
-      JSON.stringify(
-        { diff, pr: { owner, repo, pull_number, action } },
-        null,
-        2
-      )
-    );
+    console.log({
+      diffString: JSON.stringify(diff),
+      prDetailsString: JSON.stringify({ owner, repo, pull_number, action }),
+    });
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);

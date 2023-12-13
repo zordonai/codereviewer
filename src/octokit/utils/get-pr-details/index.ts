@@ -1,17 +1,9 @@
 import { readFileSync } from "fs";
-import { Octokit } from "@octokit/rest";
 import { IPRDetails } from "./interface";
 
 export const getPRDetails = (): IPRDetails => {
-  console.log({
-    event: JSON.parse(
-      readFileSync(process.env.GITHUB_EVENT_PATH || "", "utf8")
-    ),
-  });
   const { action, pull_request, repository, number, before, after } =
     JSON.parse(readFileSync(process.env.GITHUB_EVENT_PATH || "", "utf8"));
-
-  console.log({ pull_request: JSON.stringify(pull_request) });
 
   return {
     title: pull_request.title ?? "",
