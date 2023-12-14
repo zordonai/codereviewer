@@ -9,10 +9,6 @@ inputs:
     description: "OpenAI API key"
     required: false
     default: ""
-  bard_api_cookie:
-    description: "Google Bard API Cookie"
-    required: false
-    default: ""
   palm_api_key:
     description: "Google PaLM API key"
     required: false

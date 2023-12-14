@@ -41,7 +41,6 @@ async function startCodeReview() {
       title,
       description,
       openaiApiKey: inputs.openaiApiKey,
-      bardApiCookie: inputs.bardApiCookie,
       palmApiKey: inputs.palmApiKey,
     });
 
