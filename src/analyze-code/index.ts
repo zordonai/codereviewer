@@ -4,13 +4,16 @@ export const analyzeCode = async ({
   diff,
   title,
   description,
-  palmApiKey,
   openaiApiKey,
+  bardApiCookie,
+  palmApiKey,
 }: IAnalyzeCode) => {
-  const apiKey = palmApiKey || openaiApiKey;
-  const aiAnalyzer = palmApiKey
-    ? (await import("./palm")).withPalm
-    : (await import("./openai")).withOpenAI;
+  let aiAnalyzer;
+  const apiKey = openaiApiKey || palmApiKey || bardApiCookie;
+
+  if (openaiApiKey) aiAnalyzer = (await import("./openai")).withOpenAI;
+  else if (bardApiCookie) aiAnalyzer = (await import("./bard")).withBard;
+  else aiAnalyzer = (await import("./palm")).withPalm;
 
   const aiCommentsString = await aiAnalyzer({
     diff,

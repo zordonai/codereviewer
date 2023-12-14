@@ -40,8 +40,9 @@ async function startCodeReview() {
       diff,
       title,
       description,
-      palmApiKey: inputs.palmApiKey,
       openaiApiKey: inputs.openaiApiKey,
+      bardApiCookie: inputs.bardApiCookie,
+      palmApiKey: inputs.palmApiKey,
     });
 
     if (aiComments.length === 0) return;

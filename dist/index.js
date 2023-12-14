@@ -38986,6 +38986,79 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 2821:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.withBard = void 0;
+var bard_ai_1 = __importDefault(__nccwpck_require__(1558));
+var create_prompt_1 = __nccwpck_require__(1916);
+var withBard = function (_a) {
+    var diff = _a.diff, title = _a.title, description = _a.description, apiKey = _a.apiKey;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var prompt, bard, result;
+        var _b;
+        return __generator(this, function (_c) {
+            switch (_c.label) {
+                case 0: return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
+                case 1:
+                    prompt = _c.sent();
+                    bard = new bard_ai_1.default(apiKey);
+                    return [4 /*yield*/, bard.ask(prompt)];
+                case 2:
+                    result = _c.sent();
+                    console.log({ result: result });
+                    return [2 /*return*/, (_b = result) !== null && _b !== void 0 ? _b : "[]"];
+            }
+        });
+    });
+};
+exports.withBard = withBard;
+
+
+/***/ }),
+
 /***/ 5623:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -39053,32 +39126,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.analyzeCode = void 0;
 var analyzeCode = function (_a) {
-    var diff = _a.diff, title = _a.title, description = _a.description, palmApiKey = _a.palmApiKey, openaiApiKey = _a.openaiApiKey;
+    var diff = _a.diff, title = _a.title, description = _a.description, openaiApiKey = _a.openaiApiKey, bardApiCookie = _a.bardApiCookie, palmApiKey = _a.palmApiKey;
     return __awaiter(void 0, void 0, void 0, function () {
-        var apiKey, aiAnalyzer, _b, aiCommentsString, aiComments;
-        return __generator(this, function (_c) {
-            switch (_c.label) {
+        var aiAnalyzer, apiKey, aiCommentsString, aiComments;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
                 case 0:
-                    apiKey = palmApiKey || openaiApiKey;
-                    if (!palmApiKey) return [3 /*break*/, 2];
-                    return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__nccwpck_require__(9911)); })];
+                    apiKey = openaiApiKey || palmApiKey || bardApiCookie;
+                    if (!openaiApiKey) return [3 /*break*/, 2];
+                    return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__nccwpck_require__(846)); })];
                 case 1:
-                    _b = (_c.sent()).withPalm;
-                    return [3 /*break*/, 4];
-                case 2: return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__nccwpck_require__(846)); })];
+                    aiAnalyzer = (_b.sent()).withOpenAI;
+                    return [3 /*break*/, 6];
+                case 2:
+                    if (!bardApiCookie) return [3 /*break*/, 4];
+                    return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__nccwpck_require__(2821)); })];
                 case 3:
-                    _b = (_c.sent()).withOpenAI;
-                    _c.label = 4;
-                case 4:
-                    aiAnalyzer = _b;
-                    return [4 /*yield*/, aiAnalyzer({
-                            diff: diff,
-                            title: title,
-                            description: description,
-                            apiKey: apiKey,
-                        })];
+                    aiAnalyzer = (_b.sent()).withBard;
+                    return [3 /*break*/, 6];
+                case 4: return [4 /*yield*/, Promise.resolve().then(function () { return __importStar(__nccwpck_require__(9911)); })];
                 case 5:
-                    aiCommentsString = _c.sent();
+                    aiAnalyzer = (_b.sent()).withPalm;
+                    _b.label = 6;
+                case 6: return [4 /*yield*/, aiAnalyzer({
+                        diff: diff,
+                        title: title,
+                        description: description,
+                        apiKey: apiKey,
+                    })];
+                case 7:
+                    aiCommentsString = _b.sent();
                     aiComments = JSON.parse(aiCommentsString);
                     return [2 /*return*/, aiComments];
             }
@@ -39240,12 +39317,10 @@ var withPalm = function (_a) {
                         })];
                 case 2:
                     result = _b.sent();
-                    console.log({ result: result });
                     if (result.startsWith("```")) {
                         result = result.replace("```json\n", "");
                         result = result.replace("\n```", "");
                     }
-                    console.log({ result: result });
                     return [2 /*return*/, result !== null && result !== void 0 ? result : "[]"];
             }
         });
@@ -39497,9 +39572,10 @@ exports.getInputs = void 0;
 var core = __importStar(__nccwpck_require__(2186));
 var getInputs = function () {
     var githubToken = core.getInput("github_token");
-    var palmApiKey = core.getInput("palm_api_key");
-    var openaiApiKey = core.getInput("openai_api_key", {
-        required: !Boolean(palmApiKey),
+    var openaiApiKey = core.getInput("openai_api_key");
+    var bardApiCookie = core.getInput("bard_api_cookie");
+    var palmApiKey = core.getInput("palm_api_key", {
+        required: !Boolean(openaiApiKey) && !Boolean(bardApiCookie),
     });
     var excludeFiles = core
         .getInput("exclude_files")
@@ -39507,8 +39583,9 @@ var getInputs = function () {
         .map(function (s) { return s.trim(); });
     return {
         githubToken: githubToken,
-        palmApiKey: palmApiKey,
         openaiApiKey: openaiApiKey,
+        bardApiCookie: bardApiCookie,
+        palmApiKey: palmApiKey,
         excludeFiles: excludeFiles,
     };
 };
@@ -39614,8 +39691,9 @@ function startCodeReview() {
                             diff: diff,
                             title: title,
                             description: description,
-                            palmApiKey: inputs.palmApiKey,
                             openaiApiKey: inputs.openaiApiKey,
+                            bardApiCookie: inputs.bardApiCookie,
+                            palmApiKey: inputs.palmApiKey,
                         })];
                 case 2:
                     aiComments = _b.sent();
@@ -49484,6 +49562,388 @@ try {
 
 /***/ }),
 
+/***/ 1558:
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
+
+"use strict";
+__nccwpck_require__.r(__webpack_exports__);
+/* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+class Bard {
+    static JSON = "json";
+    static MD = "markdown";
+
+    // ID derived from Cookie
+    SNlM0e;
+
+    // HTTPS Headers
+    #headers;
+
+    // Resolution status of initialization call
+    #initPromise;
+
+    #bardURL = "https://bard.google.com";
+
+    // Wether or not to log events to console
+    #verbose = false;
+
+    // Fetch function
+    #fetch = fetch;
+
+    constructor(cookie, config) {
+        // Register some settings
+        if (config?.verbose == true) this.#verbose = true;
+        if (config?.fetch) this.#fetch = config.fetch;
+
+        // If a Cookie is provided, initialize
+        if (cookie) {
+            this.#initPromise = this.#init(cookie);
+        } else {
+            throw new Error("Please provide a Cookie when initializing Bard.");
+        }
+        this.cookie = cookie;
+    }
+
+    // You can also choose to initialize manually
+    async #init(cookie) {
+        this.#verbose && console.log("🚀 Starting intialization");
+
+        // Assign headers
+        this.#headers = {
+            Host: "bard.google.com",
+            "X-Same-Domain": "1",
+            "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            Origin: this.#bardURL,
+            Referer: this.#bardURL,
+            Cookie: (typeof cookie === "object") ? (Object.entries(cookie).map(([key, val]) => `${key}=${val};`).join("")) : ("__Secure-1PSID=" + cookie),
+        };
+
+        let responseText;
+        // Attempt to retrieve SNlM0e
+        try {
+            this.#verbose &&
+                console.log("🔒 Authenticating your Google account");
+            responseText = await this.#fetch(this.#bardURL, {
+                method: "GET",
+                headers: this.#headers,
+                credentials: "include",
+            })
+                .then((response) => response.text())
+        } catch (e) {
+            // Failure to get server
+            throw new Error(
+                "Could not fetch Google Bard. You may be disconnected from internet: " +
+                e
+            );
+        }
+
+        try {
+            const SNlM0e = responseText.match(/SNlM0e":"(.*?)"/)[1];
+            // Assign SNlM0e and return it
+            this.SNlM0e = SNlM0e;
+            this.#verbose && console.log("✅ Initialization finished\n");
+            return SNlM0e;
+        } catch {
+            throw new Error(
+                "Could not use your Cookie. Make sure that you copied correctly the Cookie with name __Secure-1PSID exactly. If you are sure your cookie is correct, you may also have reached your rate limit."
+            );
+        }
+    }
+
+    async #uploadImage(name, buffer) {
+        this.#verbose && console.log("🖼️ Starting image processing");
+        let size = buffer.byteLength;
+        let formBody = [
+            `${encodeURIComponent("File name")}=${encodeURIComponent([name])}`,
+        ];
+
+        try {
+            this.#verbose &&
+                console.log("💻 Finding Google server destination");
+            let response = await this.#fetch(
+                "https://content-push.googleapis.com/upload/",
+                {
+                    method: "POST",
+                    headers: {
+                        "X-Goog-Upload-Command": "start",
+                        "X-Goog-Upload-Protocol": "resumable",
+                        "X-Goog-Upload-Header-Content-Length": size,
+                        "X-Tenant-Id": "bard-storage",
+                        "Push-Id": "feeds/mcudyrk2a4khkz",
+                    },
+                    body: formBody,
+                    credentials: "include",
+                }
+            );
+
+            const uploadUrl = response.headers.get("X-Goog-Upload-URL");
+            this.#verbose && console.log("📤 Sending your image");
+            response = await this.#fetch(uploadUrl, {
+                method: "POST",
+                headers: {
+                    "X-Goog-Upload-Command": "upload, finalize",
+                    "X-Goog-Upload-Offset": 0,
+                    "X-Tenant-Id": "bard-storage",
+                },
+                body: buffer,
+                credentials: "include",
+            });
+
+            const imageFileLocation = await response.text();
+
+            this.#verbose && console.log("✅ Image finished working\n");
+            return imageFileLocation;
+        } catch (e) {
+            throw new Error(
+                "Could not fetch Google Bard. You may be disconnected from internet: " +
+                e
+            );
+        }
+    }
+
+    // Query Bard
+    async #query(message, config) {
+        let formatMarkdown = (text, images) => {
+            if (!images) return text;
+
+            for (let imageData of images) {
+                const formattedTag = `!${imageData.tag}(${imageData.url})`;
+                text = text.replace(
+                    new RegExp(`(?!\\!)\\[${imageData.tag.slice(1, -1)}\\]`),
+                    formattedTag
+                );
+            }
+
+            return text;
+        }
+
+        let { ids, imageBuffer } = config;
+
+        // Wait until after init
+        await this.#initPromise;
+
+        this.#verbose && console.log("🔎 Starting Bard Query");
+
+        // If user has not run init
+        if (!this.SNlM0e) {
+            throw new Error(
+                "Please initialize Bard first. If you haven't passed in your Cookie into the class, run Bard.init(cookie)."
+            );
+        }
+
+        this.#verbose && console.log("🏗️ Building Request");
+        // HTTPS parameters
+        const params = {
+            bl: "boq_assistant-bard-web-server_20230711.08_p0",
+            _reqID: ids?._reqID ?? "0",
+            rt: "c",
+        };
+
+        // If IDs are provided, but doesn't have every one of the expected IDs, error
+        const messageStruct = [
+            [message],
+            null,
+            [null, null, null],
+        ];
+
+        if (imageBuffer) {
+            let imageLocation = await this.#uploadImage(
+                `bard-ai_upload`,
+                imageBuffer
+            );
+            messageStruct[0].push(0, null, [
+                [[imageLocation, 1], "bard-ai_upload"],
+            ]);
+        }
+
+        if (ids) {
+            const { conversationID, responseID, choiceID } = ids;
+            messageStruct[2] = [conversationID, responseID, choiceID];
+        }
+
+        // HTTPs data
+        const data = {
+            "f.req": JSON.stringify([null, JSON.stringify(messageStruct)]),
+            at: this.SNlM0e,
+        };
+
+        // URL that we are submitting to
+        const url = new URL(
+            "/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            this.#bardURL
+        );
+
+        // Append parameters to the URL
+        for (const key in params) {
+            url.searchParams.append(key, params[key]);
+        }
+
+        // Encode the data
+        const formBody = Object.entries(data)
+            .map(
+                ([property, value]) =>
+                    `${encodeURIComponent(property)}=${encodeURIComponent(
+                        value
+                    )}`
+            )
+            .join("&");
+
+        this.#verbose && console.log("💭 Sending message to Bard");
+        // Send the fetch request
+        const chatData = await this.#fetch(url.toString(), {
+            method: "POST",
+            headers: this.#headers,
+            body: formBody,
+            credentials: "include",
+        })
+            .then((response) => {
+                return response.text();
+            })
+            .then((text) => {
+                return JSON.parse(text.split("\n")[3])[0][2];
+            })
+            .then((rawData) => JSON.parse(rawData));
+
+        this.#verbose && console.log("🧩 Parsing output");
+        // Get first Bard-recommended answer
+        const answer = chatData[4][0];
+
+        // Text of that answer
+        const text = answer[1][0];
+
+        // Get data about images in that answer
+        const images =
+            answer[4]?.map((x) => ({
+                tag: x[2],
+                url: x[3][0][0],
+                info: {
+                    raw: x[0][0][0],
+                    source: x[1][0][0],
+                    alt: x[0][4],
+                    website: x[1][1],
+                    favicon: x[1][3],
+                },
+            })) ?? [];
+
+        this.#verbose && console.log("✅ All done!\n");
+        // Put everything together and return
+        return {
+            content: formatMarkdown(text, images),
+            images: images,
+            ids: {
+                conversationID: chatData[1][0],
+                responseID: chatData[1][1],
+                choiceID: answer[0],
+                _reqID: String(parseInt(ids?._reqID ?? 0) + 100000),
+            },
+        };
+    }
+
+    async #parseConfig(config) {
+        let result = {
+            useJSON: false,
+            imageBuffer: undefined, // Returns as {extension, filename}
+            ids: undefined,
+        };
+
+        // Verify that format is one of the two types
+        if (config?.format) {
+            switch (config.format) {
+                case Bard.JSON:
+                    result.useJSON = true;
+                    break;
+                case Bard.MD:
+                    result.useJSON = false;
+                    break;
+                default:
+                    throw new Error(
+                        "Format can obly be Bard.JSON for JSON output or Bard.MD for Markdown output."
+                    );
+            }
+        }
+
+        // Verify that the image passed in is either a path to a jpeg, jpg, png, or webp, or that it is a Buffer
+        if (config?.image) {
+            if (
+                config.image instanceof ArrayBuffer
+            ) {
+                result.imageBuffer = config.image;
+            } else if (
+                typeof config.image === "string" &&
+                /\.(jpeg|jpg|png|webp)$/.test(config.image)
+            ) {
+                let fs;
+
+                try {
+                    fs = await Promise.resolve(/* import() */).then(__nccwpck_require__.t.bind(__nccwpck_require__, 7147, 19))
+                } catch {
+                    throw new Error(
+                        "Loading from an image file path is not supported in a browser environment.",
+                    );
+                }
+
+                result.imageBuffer = fs.readFileSync(
+                    config.image,
+                ).buffer;
+            } else {
+                throw new Error(
+                    "Provide your image as a file path to a .jpeg, .jpg, .png, or .webp, or a Buffer."
+                );
+            }
+        }
+
+        // Verify that all values in IDs exist
+        if (config?.ids) {
+            if (config.ids.conversationID && config.ids.responseID && config.ids.choiceID && config.ids._reqID) {
+                result.ids = config.ids;
+            } else {
+                throw new Error(
+                    "Please provide the IDs exported exactly as given."
+                );
+            }
+        }
+        return result;
+    }
+
+    // Ask Bard a question!
+    async ask(message, config) {
+        let { useJSON, imageBuffer, ids } = await this.#parseConfig(config);
+        let response = await this.#query(message, { imageBuffer, ids });
+        return useJSON ? response : response.content;
+    }
+
+    createChat(ids) {
+        let bard = this;
+        class Chat {
+            ids = ids;
+
+            async ask(message, config) {
+                let { useJSON, imageBuffer } = await bard.#parseConfig(config);
+                let response = await bard.#query(message, {
+                    imageBuffer,
+                    ids: this.ids,
+                });
+                this.ids = response.ids;
+                return useJSON ? response : response.content;
+            }
+
+            export() {
+                return this.ids;
+            }
+        }
+
+        return new Chat();
+    }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Bard);
+
+
+/***/ }),
+
 /***/ 3213:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __nccwpck_require__) => {
 
@@ -52525,6 +52985,36 @@ module.exports = JSON.parse('[[[0,44],"disallowed_STD3_valid"],[[45,46],"valid"]
 /******/ 	__nccwpck_require__.m = __webpack_modules__;
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/create fake namespace object */
+/******/ 	(() => {
+/******/ 		var getProto = Object.getPrototypeOf ? (obj) => (Object.getPrototypeOf(obj)) : (obj) => (obj.__proto__);
+/******/ 		var leafPrototypes;
+/******/ 		// create a fake namespace object
+/******/ 		// mode & 1: value is a module id, require it
+/******/ 		// mode & 2: merge all properties of value into the ns
+/******/ 		// mode & 4: return value when already ns object
+/******/ 		// mode & 16: return value when it's Promise-like
+/******/ 		// mode & 8|1: behave like require
+/******/ 		__nccwpck_require__.t = function(value, mode) {
+/******/ 			if(mode & 1) value = this(value);
+/******/ 			if(mode & 8) return value;
+/******/ 			if(typeof value === 'object' && value) {
+/******/ 				if((mode & 4) && value.__esModule) return value;
+/******/ 				if((mode & 16) && typeof value.then === 'function') return value;
+/******/ 			}
+/******/ 			var ns = Object.create(null);
+/******/ 			__nccwpck_require__.r(ns);
+/******/ 			var def = {};
+/******/ 			leafPrototypes = leafPrototypes || [null, getProto({}), getProto([]), getProto(getProto)];
+/******/ 			for(var current = mode & 2 && value; typeof current == 'object' && !~leafPrototypes.indexOf(current); current = getProto(current)) {
+/******/ 				Object.getOwnPropertyNames(current).forEach((key) => (def[key] = () => (value[key])));
+/******/ 			}
+/******/ 			def['default'] = () => (value);
+/******/ 			__nccwpck_require__.d(ns, def);
+/******/ 			return ns;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports

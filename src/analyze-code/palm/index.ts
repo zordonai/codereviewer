@@ -19,14 +19,10 @@ export const withPalm = async ({
     candidate_count: 1,
   });
 
-  console.log({ result });
-
   if (result.startsWith("```")) {
     result = result.replace("```json\n", "");
     result = result.replace("\n```", "");
   }
-
-  console.log({ result });
 
   return result ?? "[]";
 };

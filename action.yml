@@ -5,12 +5,16 @@ inputs:
     description: "GitHub token to access repositories"
     required: false
     default: ${{ github.token }}
-  palm_api_key:
-    description: "PaLM API key"
-    required: false
-    default: ""
   openai_api_key:
     description: "OpenAI API key"
+    required: false
+    default: ""
+  bard_api_cookie:
+    description: "Google Bard API Cookie"
+    required: false
+    default: ""
+  palm_api_key:
+    description: "Google PaLM API key"
     required: false
     default: ""
   exclude_files:
