@@ -49,6 +49,7 @@ file_name: ${file}
 file_extension: ${ext}
 file_programming_language: ${programmingLang}
 
+file_diff:
 \`\`\`diff
 ${content}
 ${changes}

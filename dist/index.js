@@ -39433,7 +39433,7 @@ var createPrompt = function (diff, title, description) { return __awaiter(void 0
                     file = _d.file, content = _d.content, changes = _d.changes;
                     ext = (0, get_file_extension_1.getFileExtension)(file);
                     programmingLang = (0, get_file_programming_lang_1.getFileProgrammingLang)(".".concat(ext));
-                    prompt += "---\nfile_name: ".concat(file, "\nfile_extension: ").concat(ext, "\nfile_programming_language: ").concat(programmingLang, "\n\n```diff\n").concat(content, "\n").concat(changes, "\n```\n---\n");
+                    prompt += "---\nfile_name: ".concat(file, "\nfile_extension: ").concat(ext, "\nfile_programming_language: ").concat(programmingLang, "\n\nfile_diff:\n```diff\n").concat(content, "\n").concat(changes, "\n```\n---\n");
                 }
                 finally {
                     _a = true;
