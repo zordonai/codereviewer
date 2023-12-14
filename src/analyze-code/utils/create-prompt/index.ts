@@ -21,9 +21,13 @@ export const createPrompt = async (
 8. Consider performance using BigO notation.
 9. Good programming practices.
 
-Provide your response in the format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }]. Avoid positive comments, focus on areas for improvement, and provide constructive criticism and suggestions. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
+Provide your response in the format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }]. Focus on areas for improvement, and provide constructive criticism and suggestions. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
 
 Please make sure to consider the programming language accurately and follow the provided instructions.
+
+IMPORTANT: On an importance scale of 1 to 10, only returns comments that have an importance level above 6.
+IMPORTANT²: On a positive scale of 1 to 10, only returns positive comments that have a level above 6.
+IMPORTANT³: Only consider indentation adjustments if really necessary.
 
 Pull request title: ${title}
 Pull request description:
