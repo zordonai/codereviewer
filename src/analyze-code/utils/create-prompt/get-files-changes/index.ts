@@ -4,7 +4,7 @@ export const getFilesChanges = (diff: File[]) => {
   const filesChanges = diff.map((file) => {
     const fileChanges = file.chunks[0].changes.map((change) => {
       const line = change.type === "normal" ? change.ln2 : change.ln;
-      return `${line} ${change.content}`;
+      return `${line} ${change.content.trimEnd()}`;
     });
 
     return {
