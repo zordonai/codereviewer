@@ -39307,7 +39307,7 @@ exports.getIsFileChangesEmpty = void 0;
 var getIsFileChangesEmpty = function (fileChanges) {
     var fileChangesWithLengthZero = fileChanges.length === 0;
     var fileChangesWithLengthOne = fileChanges.length === 1;
-    var fileChangesFirstLineIsEmpty = fileChanges[0].endsWith("+ ");
+    var fileChangesFirstLineIsEmpty = fileChanges === null || fileChanges === void 0 ? void 0 : fileChanges[0].endsWith("+ ");
     return (fileChangesWithLengthZero ||
         (fileChangesWithLengthOne && fileChangesFirstLineIsEmpty));
 };
