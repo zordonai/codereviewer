@@ -39298,26 +39298,41 @@ exports.getFileProgrammingLang = getFileProgrammingLang;
 /***/ }),
 
 /***/ 1715:
-/***/ ((__unused_webpack_module, exports) => {
+/***/ (function(__unused_webpack_module, exports) {
 
 "use strict";
 
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
+    }
+    return to.concat(ar || Array.prototype.slice.call(from));
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getFilesChanges = void 0;
 var getFilesChanges = function (diff) {
-    var filesChanges = diff.map(function (file) {
+    var filesChanges = diff.reduce(function (currenFilesChanges, file) {
         var _a;
-        var fileChanges = file.chunks[0].changes.map(function (change) {
+        var fileChanges = file.chunks[0].changes
+            .filter(function (change) { return change.content.trimEnd(); })
+            .map(function (change) {
             var line = change.type === "normal" ? change.ln2 : change.ln;
             return "".concat(line, " ").concat(change.content.trimEnd());
         });
-        return {
-            file: (_a = file.to) !== null && _a !== void 0 ? _a : "",
-            content: file.chunks[0].content,
-            changes: fileChanges.join("\n"),
-        };
-    });
-    return filesChanges.flat();
+        if (fileChanges.length === 0)
+            return currenFilesChanges;
+        return __spreadArray(__spreadArray([], currenFilesChanges, true), [
+            {
+                file: (_a = file.to) !== null && _a !== void 0 ? _a : "",
+                content: file.chunks[0].content,
+                changes: fileChanges.join("\n"),
+            },
+        ], false);
+    }, []);
+    return filesChanges;
 };
 exports.getFilesChanges = getFilesChanges;
 
