@@ -1,4 +1,4 @@
-import { IAnalyzeCode } from "./interface";
+import { IAnalyzeCode, TAIComments } from "./interface";
 
 export const analyzeCode = async ({
   diff,
@@ -11,11 +11,14 @@ export const analyzeCode = async ({
   const aiAnalyzer = palmApiKey
     ? (await import("./palm")).withPalm
     : (await import("./openai")).withOpenAI;
-
-  return await aiAnalyzer({
+  const aiComments = await aiAnalyzer({
     diff,
     title,
     description,
     apiKey,
   });
+
+  console.log({ aiComments });
+
+  return aiComments as unknown as TAIComments;
 };

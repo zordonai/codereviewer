@@ -39055,7 +39055,7 @@ exports.analyzeCode = void 0;
 var analyzeCode = function (_a) {
     var diff = _a.diff, title = _a.title, description = _a.description, palmApiKey = _a.palmApiKey, openaiApiKey = _a.openaiApiKey;
     return __awaiter(void 0, void 0, void 0, function () {
-        var apiKey, aiAnalyzer, _b;
+        var apiKey, aiAnalyzer, _b, aiComments;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -39077,7 +39077,10 @@ var analyzeCode = function (_a) {
                             description: description,
                             apiKey: apiKey,
                         })];
-                case 5: return [2 /*return*/, _c.sent()];
+                case 5:
+                    aiComments = _c.sent();
+                    console.log({ aiComments: aiComments });
+                    return [2 /*return*/, aiComments];
             }
         });
     });
@@ -39138,16 +39141,15 @@ var create_prompt_1 = __nccwpck_require__(1916);
 var withOpenAI = function (_a) {
     var diff = _a.diff, title = _a.title, description = _a.description, apiKey = _a.apiKey;
     return __awaiter(void 0, void 0, void 0, function () {
-        var openai, prompt, result;
+        var prompt, openai;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0:
+                case 0: return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
+                case 1:
+                    prompt = _b.sent();
                     openai = new openai_1.default({
                         apiKey: apiKey,
                     });
-                    return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
-                case 1:
-                    prompt = _b.sent();
                     return [4 /*yield*/, openai.chat.completions
                             .create({
                             model: "gpt-3.5-turbo",
@@ -39161,9 +39163,7 @@ var withOpenAI = function (_a) {
                             stream: false,
                         })
                             .then(function (answer) { var _a, _b, _c; return (_c = (_b = (_a = answer.choices[0].message) === null || _a === void 0 ? void 0 : _a.content) === null || _b === void 0 ? void 0 : _b.trim()) !== null && _c !== void 0 ? _c : "[]"; })];
-                case 2:
-                    result = _b.sent();
-                    return [2 /*return*/, result];
+                case 2: return [2 /*return*/, _b.sent()];
             }
         });
     });
@@ -39225,32 +39225,20 @@ var node_fetch_1 = __importDefault(__nccwpck_require__(1793));
 var withPalm = function (_a) {
     var diff = _a.diff, title = _a.title, description = _a.description, apiKey = _a.apiKey;
     return __awaiter(void 0, void 0, void 0, function () {
-        var palm, prompt, result1, result2;
+        var prompt, palm;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0:
+                case 0: return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
+                case 1:
+                    prompt = _b.sent();
                     palm = new palm_api_1.default(apiKey, {
                         fetch: node_fetch_1.default,
                     });
-                    return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
-                case 1:
-                    prompt = _b.sent();
                     return [4 /*yield*/, palm.generateText(prompt, {
                             temperature: 0.5,
                             candidate_count: 1,
                         })];
-                case 2:
-                    result1 = _b.sent();
-                    return [4 /*yield*/, palm.generateText(prompt, {
-                            temperature: 0.5,
-                            candidate_count: 1,
-                        })];
-                case 3:
-                    result2 = _b.sent();
-                    return [2 /*return*/, {
-                            result1: result1,
-                            result2: result2,
-                        }];
+                case 2: return [2 /*return*/, _b.sent()];
             }
         });
     });
@@ -39594,11 +39582,11 @@ var inputs = (0, get_inputs_1.getInputs)();
 var octokit = (0, octokit_1.getOctokit)(inputs.githubToken);
 function startCodeReview() {
     return __awaiter(this, void 0, void 0, function () {
-        var _a, title, description, owner, repo, pull_number, base_sha, head_sha, action, diff, results, error_1;
+        var _a, title, description, owner, repo, pull_number, base_sha, head_sha, action, diff, aiComments, error_1;
         return __generator(this, function (_b) {
             switch (_b.label) {
                 case 0:
-                    _b.trys.push([0, 3, , 4]);
+                    _b.trys.push([0, 4, , 5]);
                     _a = (0, octokit_1.getPRDetails)(), title = _a.title, description = _a.description, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, base_sha = _a.base_sha, head_sha = _a.head_sha, action = _a.action;
                     return [4 /*yield*/, (0, octokit_1.getDiff)({
                             octokit: octokit,
@@ -39622,20 +39610,30 @@ function startCodeReview() {
                             openaiApiKey: inputs.openaiApiKey,
                         })];
                 case 2:
-                    results = _b.sent();
+                    aiComments = _b.sent();
+                    if (aiComments.length === 0)
+                        return [2 /*return*/];
                     console.log({
                         diffString: JSON.stringify(diff),
                         prDetailsString: JSON.stringify({ owner: owner, repo: repo, pull_number: pull_number, action: action }),
-                        results: results,
+                        aiComments: aiComments,
                     });
-                    return [3 /*break*/, 4];
+                    return [4 /*yield*/, (0, octokit_1.sendReviewComments)({
+                            octokit: octokit,
+                            owner: owner,
+                            repo: repo,
+                            pull_number: pull_number,
+                            aiComments: aiComments,
+                        })];
                 case 3:
+                    _b.sent();
+                    return [3 /*break*/, 5];
+                case 4:
                     error_1 = _b.sent();
-                    // Fail the workflow run if an error occurs
                     if (error_1 instanceof Error)
                         core.setFailed(error_1.message);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });
@@ -40087,11 +40085,104 @@ exports.getPRDetails = getPRDetails;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getDiff = exports.getPRDetails = void 0;
+exports.sendReviewComments = exports.getDiff = exports.getPRDetails = void 0;
 var get_pr_details_1 = __nccwpck_require__(4158);
 Object.defineProperty(exports, "getPRDetails", ({ enumerable: true, get: function () { return get_pr_details_1.getPRDetails; } }));
 var get_diff_1 = __nccwpck_require__(1792);
 Object.defineProperty(exports, "getDiff", ({ enumerable: true, get: function () { return get_diff_1.getDiff; } }));
+var send_review_comments_1 = __nccwpck_require__(713);
+Object.defineProperty(exports, "sendReviewComments", ({ enumerable: true, get: function () { return send_review_comments_1.sendReviewComments; } }));
+
+
+/***/ }),
+
+/***/ 9251:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.createComments = void 0;
+var createComments = function (aiComments) {
+    return aiComments.map(function (_a) {
+        var file = _a.file, line = _a.line, comment = _a.comment;
+        return ({
+            path: file,
+            line: line,
+            body: comment,
+        });
+    });
+};
+exports.createComments = createComments;
+
+
+/***/ }),
+
+/***/ 713:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.sendReviewComments = void 0;
+var create_comments_1 = __nccwpck_require__(9251);
+var sendReviewComments = function (_a) {
+    var octokit = _a.octokit, owner = _a.owner, repo = _a.repo, pull_number = _a.pull_number, aiComments = _a.aiComments;
+    return __awaiter(void 0, void 0, void 0, function () {
+        var comments;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    comments = (0, create_comments_1.createComments)(aiComments);
+                    return [4 /*yield*/, octokit.rest.pulls.createReview({
+                            owner: owner,
+                            repo: repo,
+                            pull_number: pull_number,
+                            comments: comments,
+                            event: "COMMENT",
+                        })];
+                case 1: return [2 /*return*/, _b.sent()];
+            }
+        });
+    });
+};
+exports.sendReviewComments = sendReviewComments;
 
 
 /***/ }),

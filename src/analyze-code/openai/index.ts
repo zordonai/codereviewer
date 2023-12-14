@@ -9,12 +9,12 @@ export const withOpenAI = async ({
   description,
   apiKey,
 }: IWithOpenAI) => {
+  const prompt = await createPrompt(diff, title, description);
   const openai = new OpenAI({
     apiKey,
   });
 
-  const prompt = await createPrompt(diff, title, description);
-  const result = await openai.chat.completions
+  return await openai.chat.completions
     .create({
       model: "gpt-3.5-turbo",
       temperature: 0.5,
@@ -27,6 +27,4 @@ export const withOpenAI = async ({
       stream: false,
     })
     .then((answer) => answer.choices[0].message?.content?.trim() ?? "[]");
-
-  return result;
 };

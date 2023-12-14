@@ -1,6 +1,11 @@
 import * as core from "@actions/core";
 import { getInputs } from "./get-inputs";
-import { getOctokit, getPRDetails, getDiff } from "./octokit";
+import {
+  getOctokit,
+  getPRDetails,
+  getDiff,
+  sendReviewComments,
+} from "./octokit";
 import { analyzeCode } from "./analyze-code";
 
 const inputs = getInputs();
@@ -31,7 +36,7 @@ async function startCodeReview() {
 
     if (diff.length === 0) return;
 
-    const results = await analyzeCode({
+    const aiComments = await analyzeCode({
       diff,
       title,
       description,
@@ -39,13 +44,22 @@ async function startCodeReview() {
       openaiApiKey: inputs.openaiApiKey,
     });
 
+    if (aiComments.length === 0) return;
+
     console.log({
       diffString: JSON.stringify(diff),
       prDetailsString: JSON.stringify({ owner, repo, pull_number, action }),
-      results,
+      aiComments,
+    });
+
+    await sendReviewComments({
+      octokit,
+      owner,
+      repo,
+      pull_number,
+      aiComments,
     });
   } catch (error) {
-    // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message);
   }
 }
