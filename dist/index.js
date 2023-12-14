@@ -39305,9 +39305,10 @@ exports.getFileProgrammingLang = getFileProgrammingLang;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getIsFileChangesEmpty = void 0;
 var getIsFileChangesEmpty = function (fileChanges) {
+    var _a;
     var fileChangesWithLengthZero = fileChanges.length === 0;
     var fileChangesWithLengthOne = fileChanges.length === 1;
-    var fileChangesFirstLineIsEmpty = fileChanges === null || fileChanges === void 0 ? void 0 : fileChanges[0].endsWith("+ ");
+    var fileChangesFirstLineIsEmpty = (_a = fileChanges === null || fileChanges === void 0 ? void 0 : fileChanges[0]) === null || _a === void 0 ? void 0 : _a.endsWith("+ ");
     return (fileChangesWithLengthZero ||
         (fileChangesWithLengthOne && fileChangesFirstLineIsEmpty));
 };
