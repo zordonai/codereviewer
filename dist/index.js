@@ -39055,7 +39055,7 @@ exports.analyzeCode = void 0;
 var analyzeCode = function (_a) {
     var diff = _a.diff, title = _a.title, description = _a.description, palmApiKey = _a.palmApiKey, openaiApiKey = _a.openaiApiKey;
     return __awaiter(void 0, void 0, void 0, function () {
-        var apiKey, aiAnalyzer, _b, aiComments;
+        var apiKey, aiAnalyzer, _b, aiCommentsString, aiComments;
         return __generator(this, function (_c) {
             switch (_c.label) {
                 case 0:
@@ -39078,8 +39078,8 @@ var analyzeCode = function (_a) {
                             apiKey: apiKey,
                         })];
                 case 5:
-                    aiComments = _c.sent();
-                    console.log({ aiComments: aiComments });
+                    aiCommentsString = _c.sent();
+                    aiComments = JSON.parse(aiCommentsString);
                     return [2 /*return*/, aiComments];
             }
         });

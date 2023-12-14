@@ -11,14 +11,13 @@ export const analyzeCode = async ({
   const aiAnalyzer = palmApiKey
     ? (await import("./palm")).withPalm
     : (await import("./openai")).withOpenAI;
-  const aiComments = await aiAnalyzer({
+
+  const aiCommentsString = await aiAnalyzer({
     diff,
     title,
     description,
     apiKey,
   });
-
-  console.log({ aiComments });
-
-  return aiComments as unknown as TAIComments;
+  const aiComments: TAIComments = JSON.parse(aiCommentsString);
+  return aiComments;
 };
