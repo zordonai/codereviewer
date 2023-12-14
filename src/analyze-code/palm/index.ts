@@ -9,21 +9,17 @@ export const withPalm = async ({
   description,
   apiKey,
 }: IWithPalm) => {
+  const prompt = await createPrompt(diff, title, description);
   const palm = new PaLM(apiKey, {
     fetch: fetch as any,
   });
 
-  const prompt = await createPrompt(diff, title, description);
-  const result1 = await palm.generateText(prompt, {
-    temperature: 0.5,
-    candidate_count: 1,
-  });
-  const result2 = await palm.ask(prompt, {
+  const result = await palm.generateText(prompt, {
     temperature: 0.5,
     candidate_count: 1,
   });
 
-  console.log({ result1, result2 });
+  console.log({ result });
 
-  return result2;
+  return result ?? "[]";
 };

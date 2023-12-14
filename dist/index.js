@@ -39225,30 +39225,23 @@ var node_fetch_1 = __importDefault(__nccwpck_require__(1793));
 var withPalm = function (_a) {
     var diff = _a.diff, title = _a.title, description = _a.description, apiKey = _a.apiKey;
     return __awaiter(void 0, void 0, void 0, function () {
-        var palm, prompt, result1, result2;
+        var prompt, palm, result;
         return __generator(this, function (_b) {
             switch (_b.label) {
-                case 0:
+                case 0: return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
+                case 1:
+                    prompt = _b.sent();
                     palm = new palm_api_1.default(apiKey, {
                         fetch: node_fetch_1.default,
                     });
-                    return [4 /*yield*/, (0, create_prompt_1.createPrompt)(diff, title, description)];
-                case 1:
-                    prompt = _b.sent();
                     return [4 /*yield*/, palm.generateText(prompt, {
                             temperature: 0.5,
                             candidate_count: 1,
                         })];
                 case 2:
-                    result1 = _b.sent();
-                    return [4 /*yield*/, palm.ask(prompt, {
-                            temperature: 0.5,
-                            candidate_count: 1,
-                        })];
-                case 3:
-                    result2 = _b.sent();
-                    console.log({ result1: result1, result2: result2 });
-                    return [2 /*return*/, result2];
+                    result = _b.sent();
+                    console.log({ result: result });
+                    return [2 /*return*/, result !== null && result !== void 0 ? result : "[]"];
             }
         });
     });
