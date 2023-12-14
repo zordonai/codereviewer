@@ -21,13 +21,19 @@ export const createPrompt = async (
 8. Consider performance using BigO notation.
 9. Good programming practices.
 
-Provide your response in the format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }]. Focus on areas for improvement, and provide constructive criticism and suggestions. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
+Instructions:
+1. Provide your response in the format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }].
+2. Write the comment in GitHub Markdown format.
+3. Focus on areas for improvement, and provide constructive criticism and suggestions.
+4. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
+5. Provide comments and suggestions ONLY if there is something to improve.
+6. Use the given description only for the overall context and only comment the code.
+7. Suggestions for improvements need to have examples.
+8. Disregard indentation adjustments.
+9. NEVER suggest adding comments or descriptions to the code.
+10. BEWARE of duplicate comments and limit duplication to a maximum of 2.
 
 Please make sure to consider the programming language accurately and follow the provided instructions.
-
-IMPORTANT: On an importance scale of 1 to 10, only returns comments that have an importance level above 6.
-IMPORTANT²: On a positive scale of 1 to 10, only returns positive comments that have a level above 6.
-IMPORTANT³: Only consider indentation adjustments if really necessary.
 
 Pull request title: ${title}
 Pull request description:
