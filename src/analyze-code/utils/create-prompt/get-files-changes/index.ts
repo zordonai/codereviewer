@@ -1,17 +1,16 @@
 import type { File } from "parse-diff";
 import { TFilesChanges } from "./interface";
+import { getIsFileChangesEmpty } from "./get-is-file-changes-empty";
 
 export const getFilesChanges = (diff: File[]) => {
   const filesChanges = diff.reduce(
     (currenFilesChanges: TFilesChanges, file) => {
-      const fileChanges = file.chunks[0].changes
-        .filter((change) => change.content.trimEnd())
-        .map((change) => {
-          const line = change.type === "normal" ? change.ln2 : change.ln;
-          return `${line} ${change.content.trimEnd()}`;
-        });
+      const fileChanges = file.chunks[0].changes.map((change) => {
+        const line = change.type === "normal" ? change.ln2 : change.ln;
+        return `${line} ${change.content.trimEnd()}`;
+      });
 
-      if (fileChanges.length === 0) return currenFilesChanges;
+      if (getIsFileChangesEmpty(fileChanges)) return currenFilesChanges;
 
       return [
         ...currenFilesChanges,
