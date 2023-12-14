@@ -39288,7 +39288,7 @@ var getFileProgrammingLang = function (ext) {
     var _a;
     var language = ((_a = Object.entries(languageMap).find(function (_a) {
         var extensions = _a[1].extensions;
-        return extensions.includes(ext);
+        return extensions === null || extensions === void 0 ? void 0 : extensions.includes(ext);
     })) !== null && _a !== void 0 ? _a : [])[0];
     return language;
 };
