@@ -1,6 +1,7 @@
 import type { File } from "parse-diff";
 import { getFilesChanges } from "./get-files-changes";
-import { fileTypeFromFile } from "file-type";
+import { getFileExtension } from "./get-file-extension";
+import { getFileProgrammingLang } from "./get-file-programming-lang";
 
 export const createPrompt = async (
   diff: File[],
@@ -36,13 +37,13 @@ Files:
 `;
 
   for await (const { file, content, changes } of filesChanges) {
-    console.log({ file });
-    const { ext = "", mime = "" } = (await fileTypeFromFile(file)) ?? {};
+    const ext = getFileExtension(file);
+    const programmingLang = getFileProgrammingLang(`.${ext}`);
 
     prompt += `---
 file_name: ${file}
 file_extension: ${ext}
-file_type: ${mime}
+file_programming_language: ${programmingLang}
 
 \`\`\`diff
 ${content}
