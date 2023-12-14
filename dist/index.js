@@ -39432,14 +39432,14 @@ exports.createPrompt = void 0;
 var get_files_changes_1 = __nccwpck_require__(1715);
 var file_type_1 = __nccwpck_require__(502);
 var createPrompt = function (diff, title, description) { return __awaiter(void 0, void 0, void 0, function () {
-    var filesChanges, prompt, _a, filesChanges_1, filesChanges_1_1, file, content, changes, _b, _c, _d, e_1_1;
+    var filesChanges, prompt, _a, filesChanges_1, filesChanges_1_1, file, content, changes, _b, _c, ext, _d, mime, e_1_1;
     var _e, e_1, _f, _g;
     var _h;
     return __generator(this, function (_j) {
         switch (_j.label) {
             case 0:
                 filesChanges = (0, get_files_changes_1.getFilesChanges)(diff);
-                prompt = "Please perform a code review considering the following aspects:\n1. Code structure and organization\n2. Naming conventions and formatting\n3. Clarity and readability of the code\n4. Efficiency and optimization\n5. Logic and correct functioning of the code\n6. Error handling and exception handling\n7. Code comments and documentation\n8. Security best practices\n9. Consider performance using BigO notation\n10. Good programming practices\n\nExtra Instructions:\n1. Provide the response in following JSON format: [{ \"file\": \"<file_name>\", \"line\": <line_number>, \"comment\": \"<review comment>\" }]\n2. Do not give positive comments or compliments\n3. Provide comments as an Staff Engineer\n4. Provide comments and suggestions ONLY if there is something to improve\n5. Write the comment in GitHub Markdown format\n6. Use the given description only for the overall context and only comment the code\n7. Make clear performance improvements, better understanding and explain why\n8. If have suggestions, consider to give examples in how to do\n9. IMPORTANT: EVER consider the file_extension to know which programming language is used and do the code review correctly\n10. IMPORTANT\u00B2: ALWAYS identify unnecessary code based on good programming language practices\n11. IMPORTANT\u00B3: NEVER suggest adding comments or descriptions to the code\n12. IMPORTANT\u2074: BEWARE of duplicate comments and limit duplication to a maximum of 2\n\nPull request title: ".concat(title, "\nPull request description:\n\n---\n").concat(description, "\n---\n\nFiles:\n\n");
+                prompt = "Perform a code review as an expert, considering the specific programming language based on the file extension. Evaluate the following aspects:\n1. Code structure and organization.\n2. Naming conventions, formatting, and readability.\n3. Efficiency and optimization.\n4. Logic and correctness of the code.\n5. Error handling and exception handling.\n6. Code comments and documentation.\n7. Security best practices.\n8. Consider performance using BigO notation.\n9. Good programming practices.\n\nProvide your response in the format: [{ \"file\": \"<file_name>\", \"line\": <line_number>, \"comment\": \"<review comment>\" }]. Avoid positive comments, focus on areas for improvement, and provide constructive criticism and suggestions. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.\n\nPlease make sure to consider the programming language accurately and follow the provided instructions.\n\nPull request title: ".concat(title, "\nPull request description:\n\n---\n").concat(description, "\n---\n\nFiles:\n\n");
                 _j.label = 1;
             case 1:
                 _j.trys.push([1, 9, 10, 15]);
@@ -39454,11 +39454,11 @@ var createPrompt = function (diff, title, description) { return __awaiter(void 0
             case 4:
                 _j.trys.push([4, , 6, 7]);
                 file = _g.file, content = _g.content, changes = _g.changes;
-                _b = prompt;
-                _d = (_c = "---\nfile_name: ".concat(file, "\nfile_extension: ")).concat;
+                console.log({ file: file });
                 return [4 /*yield*/, (0, file_type_1.fileTypeFromFile)(file)];
             case 5:
-                prompt = _b + _d.apply(_c, [(_h = (_j.sent())) === null || _h === void 0 ? void 0 : _h.ext, "\n\n```diff\n"]).concat(content, "\n").concat(changes, "\n```\n---\n");
+                _b = (_h = (_j.sent())) !== null && _h !== void 0 ? _h : {}, _c = _b.ext, ext = _c === void 0 ? "" : _c, _d = _b.mime, mime = _d === void 0 ? "" : _d;
+                prompt += "---\nfile_name: ".concat(file, "\nfile_extension: ").concat(ext, "\nfile_type: ").concat(mime, "\n\n```diff\n").concat(content, "\n").concat(changes, "\n```\n---\n");
                 return [3 /*break*/, 7];
             case 6:
                 _a = true;

@@ -9,31 +9,20 @@ export const createPrompt = async (
 ) => {
   const filesChanges = getFilesChanges(diff);
 
-  let prompt = `Please perform a code review considering the following aspects:
-1. Code structure and organization
-2. Naming conventions and formatting
-3. Clarity and readability of the code
-4. Efficiency and optimization
-5. Logic and correct functioning of the code
-6. Error handling and exception handling
-7. Code comments and documentation
-8. Security best practices
-9. Consider performance using BigO notation
-10. Good programming practices
+  let prompt = `Perform a code review as an expert, considering the specific programming language based on the file extension. Evaluate the following aspects:
+1. Code structure and organization.
+2. Naming conventions, formatting, and readability.
+3. Efficiency and optimization.
+4. Logic and correctness of the code.
+5. Error handling and exception handling.
+6. Code comments and documentation.
+7. Security best practices.
+8. Consider performance using BigO notation.
+9. Good programming practices.
 
-Extra Instructions:
-1. Provide the response in following JSON format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }]
-2. Do not give positive comments or compliments
-3. Provide comments as an Staff Engineer
-4. Provide comments and suggestions ONLY if there is something to improve
-5. Write the comment in GitHub Markdown format
-6. Use the given description only for the overall context and only comment the code
-7. Make clear performance improvements, better understanding and explain why
-8. If have suggestions, consider to give examples in how to do
-9. IMPORTANT: EVER consider the file_extension to know which programming language is used and do the code review correctly
-10. IMPORTANT²: ALWAYS identify unnecessary code based on good programming language practices
-11. IMPORTANT³: NEVER suggest adding comments or descriptions to the code
-12. IMPORTANT⁴: BEWARE of duplicate comments and limit duplication to a maximum of 2
+Provide your response in the format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }]. Avoid positive comments, focus on areas for improvement, and provide constructive criticism and suggestions. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
+
+Please make sure to consider the programming language accurately and follow the provided instructions.
 
 Pull request title: ${title}
 Pull request description:
@@ -47,9 +36,13 @@ Files:
 `;
 
   for await (const { file, content, changes } of filesChanges) {
+    console.log({ file });
+    const { ext = "", mime = "" } = (await fileTypeFromFile(file)) ?? {};
+
     prompt += `---
 file_name: ${file}
-file_extension: ${(await fileTypeFromFile(file))?.ext}
+file_extension: ${ext}
+file_type: ${mime}
 
 \`\`\`diff
 ${content}
