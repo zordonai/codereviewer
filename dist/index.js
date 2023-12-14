@@ -39241,6 +39241,11 @@ var withPalm = function (_a) {
                 case 2:
                     result = _b.sent();
                     console.log({ result: result });
+                    if (result.startsWith("```")) {
+                        result = result.replace("```json\n", "");
+                        result = result.replace("\n```", "");
+                    }
+                    console.log({ result: result });
                     return [2 /*return*/, result !== null && result !== void 0 ? result : "[]"];
             }
         });

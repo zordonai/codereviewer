@@ -14,10 +14,17 @@ export const withPalm = async ({
     fetch: fetch as any,
   });
 
-  const result = await palm.generateText(prompt, {
+  let result = await palm.generateText(prompt, {
     temperature: 0.5,
     candidate_count: 1,
   });
+
+  console.log({ result });
+
+  if (result.startsWith("```")) {
+    result = result.replace("```json\n", "");
+    result = result.replace("\n```", "");
+  }
 
   console.log({ result });
 
