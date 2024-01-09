@@ -22,9 +22,9 @@ jobs:
       - name: ZordonAI CodeReview
         uses: zordonai/codereviewer@main
         with:
-          github_token: ${{ secrets.GLOBAL_GITHUB_TOKEN }}
-          openai_api_key: ${{ secrets.FRONTEND_OPENAI_API_KEY }}
-          openai_api_url: ${{ secrets.OPENAI_API_INTENAL_URL }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          openai_api_key: ${{ secrets.OPENAI_API_KEY }}
+          openai_api_url: ${{ secrets.OPENAI_API_URL }}
           exclude_files: "**/*.json, **/*.md"
 ```
 
