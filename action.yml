@@ -1,5 +1,8 @@
 name: "Zordon A.I CodeReviewer"
 description: "Use ZordonAI to code review pull requests"
+branding:
+  icon: "play"
+  color: "yellow"
 inputs:
   github_token:
     description: "GitHub token to access repositories"
