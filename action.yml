@@ -1,4 +1,4 @@
-name: "Zordon A.I CodeReviewer"
+name: "ZordonAI - CodeReviewer"
 description: "Use ZordonAI to code review pull requests"
 branding:
   icon: "play"

@@ -2,7 +2,7 @@
   "name": "codereviewer",
   "author": "zordonai",
   "version": "1.0.0-beta.0",
-  "description": "Zordon A.I CodeReviewer",
+  "description": "ZordonAI - CodeReviewer",
   "main": "dist/index.js",
   "engines": {
     "node": ">=20.10.0"
