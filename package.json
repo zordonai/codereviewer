@@ -1,6 +1,7 @@
 {
   "name": "codereviewer",
   "author": "zordonai",
+  "version": "0.0.0",
   "description": "Zordon A.I CodeReviewer",
   "main": "dist/index.js",
   "engines": {
