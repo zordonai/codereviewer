@@ -22,25 +22,26 @@ export const createPrompt = async (
 9. Good programming practices.
 
 Instructions:
-1. Provide your response in the format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }].
-2. Write the comment in GitHub Markdown format.
-3. Focus on areas for improvement, and provide constructive criticism and suggestions.
-4. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
-5. Provide comments and suggestions ONLY if there is something to improve.
-6. Use the given description only for the overall context and only comment the code.
-7. Suggestions for improvements need to have examples.
-8. Disregard indentation adjustments.
-9. NEVER suggest adding comments or descriptions to the code.
-10. BEWARE of duplicate comments and limit duplication to a maximum of 2.
+1. ALWAYS provide the response in following JSON format: [{ "file": "<file_name>", "line": <line_number>, "comment": "<review comment>" }] (IMPORTANT: Response must be 1 array as an inline string).
+2. Line breaks are ONLY allowed in comments, never in JSON format response.
+3. Write the comment in GitHub Markdown format.
+4. Focus on areas for improvement, and provide constructive criticism and suggestions.
+5. Comment only on the code itself, avoid duplication, and consider the file extension and given guidelines.
+6. Provide comments and suggestions ONLY if there is something to improve.
+7. Use the given title and description only for the overall context and only comment the code.
+8. Suggestions for improvements need to have examples.
+9. Disregard indentation adjustments.
+10. NEVER suggest adding comments or descriptions to the code.
+11. BEWARE of duplicate comments and limit duplication to a maximum of 2.
 
 Please make sure to consider the programming language accurately and follow the provided instructions.
 
 Pull request title: ${title}
 Pull request description:
 
----
+\`\`\`
 ${description}
----
+\`\`\`
 
 Files:
 
@@ -51,11 +52,14 @@ Files:
     const programmingLang = getFileProgrammingLang(`.${ext}`);
 
     prompt += `---
-file_name: ${file}
-file_extension: ${ext}
-file_programming_language: ${programmingLang}
+File Details:
 
-file_diff:
+- File Name: ${file}
+- File Extension: ${ext}
+- Programming Language: ${programmingLang}
+
+File Diff:
+
 \`\`\`diff
 ${content}
 ${changes}
