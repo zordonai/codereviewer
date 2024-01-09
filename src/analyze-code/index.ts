@@ -5,6 +5,7 @@ export const analyzeCode = async ({
   title,
   description,
   openaiApiKey,
+  openaiApiUrl,
   palmApiKey,
 }: IAnalyzeCode) => {
   let aiAnalyzer;
@@ -18,6 +19,7 @@ export const analyzeCode = async ({
     title,
     description,
     apiKey,
+    apiUrl: openaiApiUrl,
   });
   const aiComments: TAIComments = JSON.parse(aiCommentsString);
   return aiComments;

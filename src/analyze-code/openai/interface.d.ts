@@ -5,4 +5,5 @@ export interface IWithOpenAI {
   title: string;
   description: string;
   apiKey: string;
+  apiUrl: string;
 }

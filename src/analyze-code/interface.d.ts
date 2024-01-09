@@ -10,5 +10,6 @@ export interface IAnalyzeCode {
   title: string;
   description: string;
   openaiApiKey: string;
+  openaiApiUrl: string;
   palmApiKey: string;
 }

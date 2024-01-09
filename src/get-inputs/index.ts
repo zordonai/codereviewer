@@ -3,6 +3,7 @@ import * as core from "@actions/core";
 export const getInputs = () => {
   const githubToken: string = core.getInput("github_token");
   const openaiApiKey: string = core.getInput("openai_api_key");
+  const openaiApiUrl: string = core.getInput("openai_api_url");
   const palmApiKey: string = core.getInput("palm_api_key", {
     required: !Boolean(openaiApiKey),
   });
@@ -14,6 +15,7 @@ export const getInputs = () => {
   return {
     githubToken,
     openaiApiKey,
+    openaiApiUrl,
     palmApiKey,
     excludeFiles,
   };

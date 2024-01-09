@@ -39053,7 +39053,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.analyzeCode = void 0;
 var analyzeCode = function (_a) {
-    var diff = _a.diff, title = _a.title, description = _a.description, openaiApiKey = _a.openaiApiKey, palmApiKey = _a.palmApiKey;
+    var diff = _a.diff, title = _a.title, description = _a.description, openaiApiKey = _a.openaiApiKey, openaiApiUrl = _a.openaiApiUrl, palmApiKey = _a.palmApiKey;
     return __awaiter(void 0, void 0, void 0, function () {
         var aiAnalyzer, apiKey, aiCommentsString, aiComments;
         return __generator(this, function (_b) {
@@ -39074,6 +39074,7 @@ var analyzeCode = function (_a) {
                         title: title,
                         description: description,
                         apiKey: apiKey,
+                        apiUrl: openaiApiUrl,
                     })];
                 case 5:
                     aiCommentsString = _b.sent();
@@ -39137,7 +39138,7 @@ exports.withOpenAI = void 0;
 var openai_1 = __importDefault(__nccwpck_require__(47));
 var create_prompt_1 = __nccwpck_require__(1916);
 var withOpenAI = function (_a) {
-    var diff = _a.diff, title = _a.title, description = _a.description, apiKey = _a.apiKey;
+    var diff = _a.diff, title = _a.title, description = _a.description, apiKey = _a.apiKey, apiUrl = _a.apiUrl;
     return __awaiter(void 0, void 0, void 0, function () {
         var prompt, openai;
         return __generator(this, function (_b) {
@@ -39147,6 +39148,7 @@ var withOpenAI = function (_a) {
                     prompt = _b.sent();
                     openai = new openai_1.default({
                         apiKey: apiKey,
+                        baseURL: apiUrl !== null && apiUrl !== void 0 ? apiUrl : undefined,
                     });
                     return [4 /*yield*/, openai.chat.completions
                             .create({
@@ -39494,6 +39496,7 @@ var core = __importStar(__nccwpck_require__(2186));
 var getInputs = function () {
     var githubToken = core.getInput("github_token");
     var openaiApiKey = core.getInput("openai_api_key");
+    var openaiApiUrl = core.getInput("openai_api_url");
     var palmApiKey = core.getInput("palm_api_key", {
         required: !Boolean(openaiApiKey),
     });
@@ -39504,6 +39507,7 @@ var getInputs = function () {
     return {
         githubToken: githubToken,
         openaiApiKey: openaiApiKey,
+        openaiApiUrl: openaiApiUrl,
         palmApiKey: palmApiKey,
         excludeFiles: excludeFiles,
     };
@@ -39611,6 +39615,7 @@ function startCodeReview() {
                             title: title,
                             description: description,
                             openaiApiKey: inputs.openaiApiKey,
+                            openaiApiUrl: inputs.openaiApiUrl,
                             palmApiKey: inputs.palmApiKey,
                         })];
                 case 2:

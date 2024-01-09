@@ -9,6 +9,10 @@ inputs:
     description: "OpenAI API key"
     required: false
     default: ""
+  openai_api_url:
+    description: "OpenAI API Url"
+    required: false
+    default: ""
   palm_api_key:
     description: "Google PaLM API key"
     required: false

@@ -8,10 +8,12 @@ export const withOpenAI = async ({
   title,
   description,
   apiKey,
+  apiUrl,
 }: IWithOpenAI) => {
   const prompt = await createPrompt(diff, title, description);
   const openai = new OpenAI({
     apiKey,
+    baseURL: apiUrl ?? undefined,
   });
 
   return await openai.chat.completions

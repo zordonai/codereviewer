@@ -41,6 +41,7 @@ async function startCodeReview() {
       title,
       description,
       openaiApiKey: inputs.openaiApiKey,
+      openaiApiUrl: inputs.openaiApiUrl,
       palmApiKey: inputs.palmApiKey,
     });
 
