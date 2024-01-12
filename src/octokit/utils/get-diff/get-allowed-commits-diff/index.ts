@@ -11,8 +11,8 @@ export const getAllowedCommitsDiff = async ({
     return currentFiles;
   }, initialPRDiffFiles);
 
-  const commitsDiffFiles = commits_diff.filter((file) =>
-    prDiffFiles.has(file.to)
+  const commitsDiffFiles = commits_diff.filter(
+    (file) => prDiffFiles.has(file.to) && file.chunks[0]?.changes
   );
 
   if (commitsDiffFiles.length === 0) return [];

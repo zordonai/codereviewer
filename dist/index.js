@@ -39750,9 +39750,7 @@ var getAllowedCommitsDiff = function (_a) {
                 currentFiles.add(file.to);
                 return currentFiles;
             }, initialPRDiffFiles);
-            commitsDiffFiles = commits_diff.filter(function (file) {
-                return prDiffFiles.has(file.to);
-            });
+            commitsDiffFiles = commits_diff.filter(function (file) { var _a; return prDiffFiles.has(file.to) && ((_a = file.chunks[0]) === null || _a === void 0 ? void 0 : _a.changes); });
             if (commitsDiffFiles.length === 0)
                 return [2 /*return*/, []];
             initialPRChanges = new Map();
