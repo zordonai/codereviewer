@@ -30,4 +30,4 @@ jobs:
 
 ## License
 
-MIT [@zordonai](https://github.com/zordonai)
+MIT [@zordonai](https://github.com/zordonai) by [@beowner](https://github.com/beownerpro)
